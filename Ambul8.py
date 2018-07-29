@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
-from forms import RegistrationForm
+#from forms import RegistrationForm
 import json
 import osmnx as ox
 import networkx as nx
