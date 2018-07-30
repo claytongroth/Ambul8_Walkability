@@ -1,0 +1,11 @@
+#mapid { height: 500px; }
+
+.scoreGood {
+	color : green;
+}
+.scoreBad {
+	color : red;
+}
+.scoreNeural {
+	color : black;
+}
