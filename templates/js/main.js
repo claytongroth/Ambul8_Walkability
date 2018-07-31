@@ -25,5 +25,5 @@ var mymap = L.map('mapid').setView([40.73692605118838, -73.99224906926378], 13);
                                     }
                               }).addTo(mymap);
                     }
-    window.onload = zoomTo();
-    window.onload = addGJ();
+window.onload = zoomTo();
+window.onload = addGJ();
