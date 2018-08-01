@@ -1,0 +1,64 @@
+/**rules for standard html elements on the page **/
+body {
+    margin: 1.5%;/**puts a very simple spacing around the edges of the page. **/
+}
+h1, h3, footer, p {
+    text-align: center;
+}
+ul {
+    list-style-type: none;
+}
+
+
+
+
+
+/*rules for custom defined classes and id that are not modified programmatically*/
+#mapid { 
+    height: 500px; 
+    width: 500px;
+}
+.panel {
+    border-style: solid;
+    border-radius: 25px;
+    margin: 1%;
+    padding: 1.75%;
+}
+
+.graph {
+    background-color : white;
+}
+
+
+
+
+
+
+/**All style rules after this point are for classes that will be applied programmatically through javascript **/
+
+
+
+/**color based classes that will be applied to the bar graphs **/
+.urban {
+	fill : blue;
+}
+.rural {
+	fill : black;
+}
+.choosen {
+	fill : orange;
+}
+
+
+/**These classes will be dynamically applied to text in the walkability score selection to properly color code them.
+This is an attempt to prevent javascript or d3 from haneling styling directly.
+**/
+.scoreGood {
+	color : green;
+}
+.scoreBad {
+	color : red;
+}
+.scoreNeural {
+	color : black;
+}
