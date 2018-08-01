@@ -4,22 +4,31 @@ This module deals with all of the behavior of the basic statistics panel. this i
 
 
 //master object for the statistics module
-stats = {};
+var stats = {};
 
-//jquery references to scores in the basic stats box
-stats.totalScore = d3.select("#statTotalScore");
-stats.streetDensity = d3.select("#statStreetDensity");
-stats.NodeDensity = d3.select("statNodeDensity");
-stats.segCount = d3.select("statSegCount");
-stats.crime = d3.select("statCrime");
+stats.establish = function () {
+    //jquery references to scores in the basic stats box
+    stats.totalScore = d3.select("#statTotalScore");
+    stats.streetDensity = d3.select("#statStreetDensity");
+    stats.NodeDensity = d3.select("statNodeDensity");
+    stats.segCount = d3.select("statSegCount");
+    stats.crime = d3.select("statCrime");
+}
+
 
 //picks the correct color for the given data value
 stats.color = function(d) {
+    //place a switch statement here
 	
 }
 
-//Pastes the scores into the interface and color codes the scores using classes
-stats.appyScores = function () {
-	
-	return this;
+
+//updates the map with new information provided from the backend server
+stats.update = function () {
+    ;
+}
+
+//do any needed element binding to event listeners in this function
+stats.bindEvents = function () {
+    ;
 }

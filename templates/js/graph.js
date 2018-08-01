@@ -3,21 +3,18 @@ This module contains one object which is the graph object. The Graph object cont
 to interact with and change the "How does your City Compare?" information box
 **/
 
-graphs = {};
-
-//select out the svg objects from within the dom
-graphs.scoreWalk = d3.select("#graphWalkScore");
-graphs.scoreSaftey = d3.select("#graphSafetyScore");
-graphs.scoreAirQuality = d3.select("#graphAirQualityScore");
+var graphs = {};
 
 //lists of values for all three data serises which will be used by d3 to drive construction of graphs
-graphs.scoreWalkList = [1, 1, 1];
-graphs.scoreSafteyList =[1, 1, 1];
-graphs.scoreAirQualityList =[1, 1, 1];
+graphs.scoreList = [
+    {walk : 1 , Saftey : 1, airQuality : 1, barType : "Choice"},//record that the end user choose, by default it is Madison WI
+    {walk : 1 , Saftey : 1, airQuality : 1, barType : "rural"},//record for rural example to compare with
+    {walk : 1 , Saftey : 1, airQuality : 1, barType : "urban"}//record for every urban good area to walk in
+]
 
 //the height and width for each svg object
-graphs.width = 300;
-graphs.height = 300;
+graphs.width = 500;
+graphs.height = 200;
 graphs.barPadding = 2;
 graphs.svgPadding = 4;
 
@@ -30,31 +27,42 @@ graphs.heightScaleAirQuality = d3.scaleLinear();
 //generates the svg originally before they can be modified
 //this method is not called immediately because it needs to wait for the dom to load before acting on dom elements such as the svgs tags
 graphs.establish = function () {
+    
+    //select out the svg objects from within the dom
+    graphs.scoreWalk = d3.select("#graphWalkScore");
+    graphs.scoreSaftey = d3.select("#graphSafetyScore");
+    graphs.scoreAirQuality = d3.select("#graphAirQualityScore");
+    
 	//set heights for svgs
-	graphs.ScoreWalk.attr("height" , graphs.height);
-	graphs.ScoreSaftey.attr("height" , graphs.height);
+	graphs.scoreWalk.attr("height" , graphs.height);
+	graphs.scoreSaftey.attr("height" , graphs.height);
 	graphs.scoreAirQuality.attr("height" , graphs.height);
 	
 	//set widths for svgs
-	graphs.ScoreWalk.attr("width" , graphs.width);
-	graphs.ScoreSaftey.attr("width" , graphs.width);
+	graphs.scoreWalk.attr("width" , graphs.width);
+	graphs.scoreSaftey.attr("width" , graphs.width);
 	graphs.scoreAirQuality.attr("width" , graphs.width);
 	
 	//create bars inside of the svgs
-	graphs.ScoreWalk.selectAll(".bar")
-		.data(graphs.scoreWalkList)
+	graphs.scoreWalk.selectAll(".bar")
+		.data(graphs.scoreList)
 		.enter()
 		.append("rec")
 		.attr("height" , function (d) {
 			return graphs.height - graphs.svgPadding;
 		})
 		.attr("width" , function (d) {
-			return graphs.width / scoreWalkList.length
+			return graphs.width / graphs.scoreList.length
 		});
 	
 };
 
 //updates the graph to reflect changes in the dataset
-graphs.reGraph = function () {
+graphs.update = function () {
 	
 };
+
+//do any needed element binding to event listeners in this function
+graphs.bindEvents = function () {
+    ;
+}
