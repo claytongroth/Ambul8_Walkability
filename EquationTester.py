@@ -5,6 +5,8 @@ import pandas as pd
 import csv
 import matplotlib.cm as cm
 import matplotlib.colors as colors
+import geopandas as gpd
+import geojson
 
 #this function swaps [lon,lat] for [lat,lon]
 def getXY(pt):
@@ -52,6 +54,8 @@ POIshapes =  all_pois1['geometry'].centroid
 
 #create a list of each POI location's coordinates
 POICoordslist = map(getXY, POIshapes)
+print POICoordslist
+
 
 POIdistances = []
 WeightedPOIDistances = []
@@ -121,15 +125,8 @@ if Walkability < CGmin:
 if Walkability2 < CGmin:
     CGWalkscore2 = 0
 
-
-print CGWalkscore, "Our Walk Score for Manhattan"
-print CGWalkscore2, "Our Walk Score for Downtown Boulder, CO"
+print type(AmenityCount1)
 
 
-print Walkability, "Raw Number Manhattan"
-print Walkability2, "Raw Number Downtown Boulder, CO"
-
-print AmenityCount1
-
-#print stats['street_density_km'] * .009
-#print stats2['street_density_km'] * .009
+#print CGWalkscore, "Our Walk Score for Manhattan"
+#print CGWalkscore2, "Our Walk Score for Downtown Boulder, CO"

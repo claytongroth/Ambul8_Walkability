@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from networkx.readwrite import json_graph
 import pandas as pd
 import mplleaflet
+import ambul8Mod as amb
 app = Flask(__name__, static_url_path = "/Flask", static_folder = "tmp")
 
 app.config.update(dict(
@@ -16,19 +17,18 @@ app.config.update(dict(
 def my_form():
     return render_template('map.html')
 
-@app.route('/', methods=['GET', 'POST'])
-def my_form_post():
-    lat = (request.form['lat'])
-    lng = (request.form['lng'])
+@app.route('/<lat>+<lon>', methods=['GET', 'POST'])
+def receive_coords():
+    lat = request.args.get("lat", 0 , type = float)
+    lng = request.args.get("lng", 0 , type = float)
     lat = float(lat)
     lng = float(lng)
     point = (lat,lng)
-    G = ox.core.graph_from_point(point, distance = 500, network_type='walk')
-    fig, ax = ox.plot_graph(G, show = False)
-    GJp = mplleaflet.fig_to_geojson(fig=ax.figure)
-    GJ = json.dumps(GJp)
-    #return lat, ",", lng
-    return render_template('map.html', lat1=lat, lng1=lng, GeJ=GJ, point=point)
+    isochroneGJ = amb.generateIsochrone(point)
+    WS = (amb.generateWS(point))[0]
+    amenityCount = (amb.generateWS(point))[1]
+    amenityGJ = (amb.generateWS(point))[2]
+    return (isochroneGJ=isochroneGJ, point=point, WS = WS, amenityCount = amenityCount, amenityGJ = amenityGJ)
 
 
 
