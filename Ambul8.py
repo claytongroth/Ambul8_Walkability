@@ -28,7 +28,9 @@ def my_form_post():
     fig, ax = ox.plot_graph(G, show = False)
     GJp = mplleaflet.fig_to_geojson(fig=ax.figure)
     GJ = json.dumps(GJp)
-    #return lat, ",", lng
+    # GJ = ws.isochroneGeoJson(lat,lng)     # returns a geojson
+    # WS = ws.walkScore(lat, lng)           # returns the WS
+    # AM = ws.amentiesJson(lat, lng)        # Returns a geojson of amenties
     return render_template('map.html', lat1=lat, lng1=lng, GeJ=GJ, point=point)
 
 
