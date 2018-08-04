@@ -1,0 +1,104 @@
+/***** NAVBAR *****/
+.navbar-default {
+  background-color: #863ee3;
+  border-radius: 0;
+  background-image: none;
+}
+
+/* Navbar title */
+.navbar-default .navbar-brand {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Navbar hover effects */
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #ebd122;
+}
+
+/* Navbar links */
+.navbar-default .navbar-nav > li > a {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Navbar collapsed styles */
+.navbar-header .navbar-toggle {
+  color: #fff;
+}
+
+.navbar-header .navbar-toggle:hover,
+.navbar-header .navbar-toggle:focus {
+  background-color: #ebd122;
+  color: #242424;
+}
+
+/*** Portfolio pieces ***/
+.portfolio-thumbnail {
+  background-color: #fff;
+  border-color: #863ee3;
+  border-width: 2px;
+  width: 95%;
+}
+
+.portfolio-thumbnail:hover {
+  border-color: #ebd122;
+}
+
+.portfolio-title {
+  font-weight: bold;
+}
+
+.portfolio-description {
+}
+
+.portfolio-image {
+}
+
+#about-world {
+  max-height: 200px;
+}
+
+.resume h3 {
+  font-weight: bold;
+}
+
+hr {
+  border-color: white;
+  border-width: 2px;
+}
+
+p {
+  font-size: 20px;
+}
+
+a {
+  color: #863ee3;
+}
+
+a:hover {
+  color: #ebd122;
+}
+
+.jumbotron {
+  background-image: url("../assets/contour-lines.png");
+  text-align: center;
+  color: #fff;
+  padding: 2%;
+}
+
+.jumbotron h2 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+body {
+  padding-top: 50px;
+  font-family: 'Georgia', serif;
+  background-color: #f7f1fa;
+  color: #242424;
+}

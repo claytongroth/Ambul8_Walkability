@@ -1,0 +1,10 @@
+.portfolio-thumbnail {
+	background-color: yellow;
+	border-width: 4px;
+	border-style: solid;
+	border-color: green;
+}
+
+.portfolio-thumbnail img	{
+	height: 250px;
+}
