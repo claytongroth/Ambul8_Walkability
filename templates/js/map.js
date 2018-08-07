@@ -22,6 +22,13 @@ map.establish = function (){
     map.zoomTo();
     
     //add the search control for geocoding
+    L.Control.geocoder({
+        showResultIcons: false,
+        placeholder: "Name of Place or Street Address",
+        collapsed: false,
+        errorMessage: "We can seem to find that address. Can you try a different one?"
+        
+    }).addTo(map.mymap);
 }
 
 //zooms map to the correctly set lat and long, default is Madison, WI
