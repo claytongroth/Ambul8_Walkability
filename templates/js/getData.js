@@ -32,5 +32,6 @@ getData.walkability = function () {
         $("#amenityCount").text(data.amenityCount),
         $("#amenityGJ").text(data.amenityGJ);
       });
+
     return results;
 }
