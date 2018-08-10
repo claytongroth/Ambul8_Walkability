@@ -1,13 +1,13 @@
 /**module that has an object that does all of the data retrieval from APIs and Flask
 this data is handed off to an inferface module which will display the information
 **/
+
 $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 var getData = {};
 
 //function that retrieves air quality data for use by other interface objects
 getData.airQuality = function () {
     var results;
-
     return results;
 }
 
@@ -15,12 +15,14 @@ getData.airQuality = function () {
 getData.crime = function () {
     var results;
 
+
     return results;
 }
 
 //function retrieves walkability data, this includes isochrone, gjson geomentry and walkability stats
 getData.walkability = function () {
     var results;
+
     //$.getJSON(url, data, func)
     $.getJSON($SCRIPT_ROOT + '/<lat>+<lon>',
     lat: $('input[name="lat"]').val(),
@@ -35,3 +37,4 @@ getData.walkability = function () {
 
     return results;
 }
+
