@@ -7,7 +7,7 @@ from networkx.readwrite import json_graph
 import pandas as pd
 import mplleaflet
 import ambul8Mod as amb
-app = Flask(__name__, static_url_path = "/Flask", static_folder = "tmp")
+app = Flask(__name__, static_url_path = "", static_folder = "static")
 
 app.config.update(dict(
     SECRET_KEY="powerful secretkey",
@@ -15,7 +15,7 @@ app.config.update(dict(
 ))
 @app.route('/')
 def my_form():
-    return render_template('map.html')
+    return render_template('mapRefined.html')
 
 @app.route('/<lat>+<lon>', methods=['GET', 'POST'])
 def receive_coords():
@@ -28,7 +28,7 @@ def receive_coords():
     WS = (amb.generateWS(point))[0]
     amenityCount = (amb.generateWS(point))[1]
     amenityGJ = (amb.generateWS(point))[2]
-    return (isochroneGJ=isochroneGJ, point=point, WS = WS, amenityCount = amenityCount, amenityGJ = amenityGJ)
+    return render_template('mapRefined.html', isochroneGJ = isochroneGJ, point=point, WS = WS, amenityCount = amenityCount, amenityGJ = amenityGJ)
 
 
 
