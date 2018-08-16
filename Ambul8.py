@@ -17,18 +17,16 @@ app.config.update(dict(
 def my_form():
     return render_template('mapRefined.html')
 
-@app.route('/<lat>+<lon>', methods=['GET', 'POST'])
-def receive_coords():
-    lat = request.args.get("lat", 0 , type = float)
-    lng = request.args.get("lng", 0 , type = float)
-    lat = float(lat)
-    lng = float(lng)
-    point = (lat,lng)
-    isochroneGJ = amb.generateIsochrone(point)
-    WS = (amb.generateWS(point))[0]
-    amenityCount = (amb.generateWS(point))[1]
-    amenityGJ = (amb.generateWS(point))[2]
-    return render_template('mapRefined.html', isochroneGJ = isochroneGJ, point=point, WS = WS, amenityCount = amenityCount, amenityGJ = amenityGJ)
+@app.route('/walkability/<lat>/<lng>', methods=['GET', 'POST'])
+def receive_coords(lat, lng):
+    #lat = float(lat)
+    #lng = float(lng)
+    #point = (lat,lng)
+    #isochroneGJ = amb.generateIsochrone(point)
+    #WS = (amb.generateWS(point))[0]
+    #amenityCount = (amb.generateWS(point))[1]
+    #amenityGJ = (amb.generateWS(point))[2]
+    return '{ "properties" : "We got a Result here!"}'
 
 
 

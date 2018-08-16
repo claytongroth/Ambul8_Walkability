@@ -2,7 +2,6 @@
 this data is handed off to an inferface module which will display the information
 **/
 
-$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 var getData = {};
 
 //function that retrieves air quality data for use by other interface objects
@@ -20,21 +19,22 @@ getData.crime = function () {
 }
 
 //function retrieves walkability data, this includes isochrone, gjson geomentry and walkability stats
-getData.walkability = function () {
+getData.walkability = function (coorPair) {
     var results;
-
-    //$.getJSON(url, data, func)
-    $.getJSON($SCRIPT_ROOT + '/<lat>+<lon>',
-    lat: $('input[name="lat"]').val(),
-    lng: $('input[name="lng"]').val()
-    , function(data) {
-        $("#isochroneGJ").text(data.isochroneGJ),
-        $("#point").text(data.point),
-        $("#WS").text(data.WS),
-        $("#amenityCount").text(data.amenityCount),
-        $("#amenityGJ").text(data.amenityGJ);
-      });
+	
+	var queryString = $SCRIPT_ROOT + '/walkability/' + coorPair[0] + '/' + coorPair[1];
+	
+    console.log("I did it! we made a request to: " + queryString);
+	$.getJSON(queryString , function (data) {
+		console.log('Something Returned from Server');
+		console.log(data);
+	}).fail( function (error) {
+		console.log("server request failed. see error below");
+		console.log(error);
+		});
 
     return results;
 }
 
+//testing to see if connection to flask server works correctly
+getData.walkability([40.73692605118838, -73.99224906926378]);

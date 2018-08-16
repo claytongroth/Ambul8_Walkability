@@ -98,7 +98,9 @@
     <footer> credits: code is dependent on the following open source libraries and data sources: d3, leaflet, python, osmnx, osm, bootstrap and mathplotlib.</footer>          
 </body>
 
-
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 
 <!--libraires mods and other javascript stuff that we have written specifically for this project -->
 <!-- this is loaded after the body to avoid it referencing a dom element that does not yet exist-->
@@ -107,6 +109,8 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script><!-- contains object for building leaflet map  -->
     
 <script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script><!-- contains object for building bargraphs -->
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/getData.js') }}"></script><!-- contains object for building bargraphs -->
     
     
 <!-- The main loop is in this module, it calls methods from the previous three mods -->
