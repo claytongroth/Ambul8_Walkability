@@ -1,4 +1,5 @@
 import json
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 import osmnx as ox
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -97,6 +98,7 @@ def generateWS(point):
     col = ["amenity", "latitude", "longitude"]
     poi_df = pd.DataFrame(poidata, columns = col)
     poiGJ = df_to_geojson(poi_df, col)
+    poiGJ = json.dumps(poiGJ)
     return Walkscore, AmenityCount, poiGJ
 
 #     test

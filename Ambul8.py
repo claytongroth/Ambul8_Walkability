@@ -19,15 +19,14 @@ def my_form():
 
 @app.route('/walkability/<lat>/<lng>', methods=['GET', 'POST'])
 def receive_coords(lat, lng):
-    #lat = float(lat)
-    #lng = float(lng)
-    #point = (lat,lng)
-    #isochroneGJ = amb.generateIsochrone(point)
-    #WS = (amb.generateWS(point))[0]
-    #amenityCount = (amb.generateWS(point))[1]
-    #amenityGJ = (amb.generateWS(point))[2]
-    return '{ "properties" : "We got a Result here!"}'
-
+    lat = float(lat)
+    lng = float(lng)
+    point = (lat,lng)
+    isochroneGJ = amb.generateIsochrone(point)
+    WS = ((amb.generateWS(point))[0])
+    amenityCount = ((amb.generateWS(point))[1])
+    amenityGJ = ((amb.generateWS(point))[2])
+    return jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point)
 
 
 if __name__ == "__main__":
