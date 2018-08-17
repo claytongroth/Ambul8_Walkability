@@ -1,6 +1,8 @@
 /**Module deals with making the map and updating it. All is done through a single map object **/
 
 var map = {};//makeing the master object for the module
+var lat;
+var lng;
 
 //creating default lat lng coordinates so the script have something to work with initally. Default is Madison, WI
 map.lat =  43.072457;
@@ -29,6 +31,12 @@ map.establish = function (){
         errorMessage: "We can seem to find that address. Can you try a different one?"
         
     }).addTo(map.mymap);
+    
+    map.mymap.on('contextmenu', function(e) {
+    console.log(e.latlng.lat + ", " + e.latlng.lng)
+        lat = e.latlng.lat 
+        lng = e.latlng.lng
+    });
 }
 
 //zooms map to the correctly set lat and long, default is Madison, WI
@@ -41,7 +49,7 @@ map.addGJ = function (){
         iconSize: [27, 27],
         iconAnchor: [13, 27],
         popupAnchor:  [1, -24],
-        iconUrl: '/Flask/c.png' // None for now jus to block markers
+        iconUrl: '/Flask/c.png' // None for now just to block markers
                     });
 
 

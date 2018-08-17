@@ -62,3 +62,6 @@ This is an attempt to prevent javascript or d3 from haneling styling directly.
 .scoreNeural {
 	color : black;
 }
+.leaflet-container.crosshair-cursor-enabled {
+    cursor:crosshair;
+}

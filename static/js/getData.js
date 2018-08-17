@@ -13,8 +13,21 @@ getData.airQuality = function () {
 //function retrieves crime data from an api
 getData.crime = function () {
     var results;
-
-
+    var request = new XMLHttpRequest();
+        request.open(
+            "GET", 
+            "https://geo.fcc.gov/api/census/block/find?latitude="+ lat + "&longitude=" + lng + "&showall=true&format=json");
+        request.onload = function (){
+            var crimeJdata = JSON.parse(this.response);
+            console.log(crimeJdata.County.name)
+        }
+        request.send();
+    $.getJSON("crime.json", function (json){
+        console.log(json);
+    });
+    
+    // Next is to create a regex to match the requested county info to the JSON records
+    
     return results;
 }
 
@@ -38,3 +51,4 @@ getData.walkability = function (coorPair) {
 
 //testing to see if connection to flask server works correctly
 getData.walkability([40.73692605118838, -73.99224906926378]);
+getData.crime([40.73692605118838, -73.99224906926378]);
