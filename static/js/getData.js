@@ -19,27 +19,12 @@ getData.crime = function () {
             "https://geo.fcc.gov/api/census/block/find?latitude="+ lat + "&longitude=" + lng + "&showall=true&format=json");
         request.onload = function (){
             var crimeJdata = JSON.parse(this.response);
-            console.log(crimeJdata.County.name);
-
-            //set the current results for crime data for use in other functions
-            current.crime = json;
-
-            //change the interface to reflect the new data
-            graphs.update();
-            map.update();
-            stats.update();
+            console.log(crimeJdata.County.name)
         }
         request.send();
     $.getJSON("crime.json", function (json){
         console.log(json);
-
-        //set the current results for crime data for use in other functions
-        current.crime = json;
-
-        //change the interface to reflect the new data
-        graphs.update();
-        map.update();
-        stats.update();
+        //call whatever call backfunction that will cause things to happen in the interface
     });
     
     // Next is to create a regex to match the requested county info to the JSON records
@@ -57,24 +42,12 @@ getData.walkability = function () {
 	$.getJSON(queryString , function (data) {
 		console.log('Something Returned from Server');
         console.log(data);
-
-        //assign all of the data as needed
-        current.isochroneGJ = data.isochroneGJ;
-        current.WS = data.WS;
-        current.amenityCount = data.amenityCount;
-        current.amenityGJ = data.amenityGJ;
-        current.point = data.amenityGJ;
-
-        //change the interface to reflect the new data
-        graphs.update();
-        map.update();
-        stats.update();
-
 	}).fail( function (error) {
 		console.log("server request failed. see error below");
 		console.log(error);
 		});
 
+    return results;
 }
 
 //testing to see if connection to flask server works correctly
