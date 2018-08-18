@@ -11,7 +11,7 @@ getData.airQuality = function () {
 }
 
 //function retrieves crime data from an api
-getData.crime = function () {
+getData.crime = function (current, lat, lng) {
     var results;
     var request = new XMLHttpRequest();
         request.open(
@@ -19,10 +19,12 @@ getData.crime = function () {
             "https://geo.fcc.gov/api/census/block/find?latitude="+ lat + "&longitude=" + lng + "&showall=true&format=json");
         request.onload = function (){
             var crimeJdata = JSON.parse(this.response);
+            console.log(crimeJdata)
             console.log(crimeJdata.County.name)
+            console.log(crimeJdata.State.name)
         }
         request.send();
-    $.getJSON("crime.json", function (json){
+    $.getJSON("/static/js/crime.json", function (json){
         console.log(json);
         //call whatever call backfunction that will cause things to happen in the interface
     });
@@ -42,6 +44,7 @@ getData.walkability = function () {
 	$.getJSON(queryString , function (data) {
 		console.log('Something Returned from Server');
         console.log(data);
+        console.log(JSON.parse(data.amenityCount.slice(1, -1)));
 	}).fail( function (error) {
 		console.log("server request failed. see error below");
 		console.log(error);

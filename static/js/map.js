@@ -53,7 +53,7 @@ map.establish = function (){
                 current.state = response.address.state;
 
                 //call get crime data now. crime function will use address information taken from global current object
-                //getData.crime();
+                getData.crime(current, lat, lng);
             });
 
             //call each of the datagetter methods and hand them callback functions
