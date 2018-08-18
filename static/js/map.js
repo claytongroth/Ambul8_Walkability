@@ -5,7 +5,23 @@ var lat;
 var lng;
 
 //object which will contain state information about the request and general state of interface element and associated variables
-current = {city : null, state : null};
+//it also contains results from the last filled request
+current = {
+    //info used to make request
+    city : null, 
+    state : null,
+
+    //information handed back from walkability
+    isochroneGJ : null,
+    WS : null,
+    amenityCount : null,
+    amenityGJ : null,
+    point : null,
+
+    //infromation gained from air quality and walkability
+    airQuality : null,
+    crime : null
+};
 
 //creating default lat lng coordinates so the script have something to work with initally. Default is Madison, WI
 map.lat =  43.072457;
@@ -40,26 +56,8 @@ map.establish = function (){
             lat = latlongPar.lat;
             lng = latlongPar.lng;
 
-            //try and get county information from geocoding service
-            
-            $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
-                console.log("recieved responce from OSM geocoder, see log below");
-                console.log(response);
-                console.log(response.address.city);
-
-                //assign the attribute information to the current state tracking object so it can be used by many differnt functions
-                //in many different modules inside of the project
-                current.city = response.address.city;
-                current.state = response.address.state;
-
-                //call get crime data now. crime function will use address information taken from global current object
-                getData.crime(current, lat, lng);
-            });
-
-            //call each of the datagetter methods and hand them callback functions
-            
-            getData.walkability();
-
+            //make change to the whole interface
+            map.locationChange();
         })
         .addTo(map.mymap);
     
@@ -67,8 +65,35 @@ map.establish = function (){
     console.log(e.latlng.lat + ", " + e.latlng.lng)
         lat = e.latlng.lat 
         lng = e.latlng.lng
+
+        map.locationChange();
     });
 }
+
+            
+map.locationChange = function (){
+    console.log("making osm request");
+    $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
+        console.log("recieved responce from OSM geocoder, see log below");
+        console.log(response);
+        console.log(response.address.city);
+
+        //assign the attribute information to the current state tracking object so it can be used by many differnt functions
+        //in many different modules inside of the project
+        current.city = response.address.city;
+        current.state = response.address.state;
+
+        //call get crime data now. crime function will use address information taken from global current object
+        //getData.crime();
+    }).fail(function(error){
+        console.log("OSM attempt failed");
+        console.log(error);
+    });
+    //get data from data getters
+    getData.walkability();
+    //crime data getter here
+    //air quality one here
+};
 
 //zooms map to the correctly set lat and long, default is Madison, WI
 map.zoomTo = function () {
@@ -93,10 +118,6 @@ map.addGJ = function (){
 
 //updates the map with new information provided from the backend server
 map.update = function () {
-    ;
-}
-
-//do any needed element binding to event listeners in this function
-map.bindEvents = function () {
+    console.log("update map has been called");
     ;
 }

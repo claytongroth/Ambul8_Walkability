@@ -16,7 +16,11 @@ graphs.scoreList = [
 graphs.width = 500;
 graphs.height = 200;
 graphs.barPadding = 2;
-graphs.svgPadding = 4;
+
+graphs.paddingTop = 4;
+graphs.paddingBoom = 4;
+graphs.paddingLeft = 4;
+graphs.paddingRight = 4;
 
 //create the scales that will generate the height attributes of svg rectangles
 graphs.heightScaleWalk = d3.scaleLinear();
@@ -59,7 +63,7 @@ graphs.establish = function () {
 
 //updates the graph to reflect changes in the dataset
 graphs.update = function () {
-	
+	console.log("update graph function called");
 };
 
 //do any needed element binding to event listeners in this function
