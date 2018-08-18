@@ -68,7 +68,8 @@ def generateWS(point):
     G = ox.core.graph_from_point(point, distance = 500, network_type='walk')
     all_pois = ox.pois_from_point(point, distance = 500)
     AmenityCount = all_pois['amenity'].value_counts()
-    AmenityCount = AmenityCount.to_json()
+    AmenityCount =  AmenityCount.to_json()
+    #AmenityCount = str(AmenityCount)
     stats = ox.basic_stats(G, area=500)
     POIshapes =  all_pois['geometry'].centroid
     POICoordslist = map(getXY, POIshapes)
@@ -97,9 +98,11 @@ def generateWS(point):
         poidata.append([row["amenity"], latitude, longitude])
     col = ["amenity", "latitude", "longitude"]
     poi_df = pd.DataFrame(poidata, columns = col)
-    poiGJ = df_to_geojson(poi_df, col)
-    poiGJ = json.dumps(poiGJ)
-    return Walkscore, AmenityCount, poiGJ
+    poiGJ2 = poi_df.to_json(orient = 'index')
+    #poiGJ = df_to_geojson(poi_df, col)
+    #poiGJ = json.dumps(poiGJ)
+    return Walkscore, AmenityCount, poiGJ2
+
 
 #     test
 #lat = (40.758896)

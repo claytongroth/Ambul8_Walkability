@@ -26,7 +26,7 @@ def receive_coords(lat, lng):
     WS = ((amb.generateWS(point))[0])
     amenityCount = ((amb.generateWS(point))[1])
     amenityGJ = ((amb.generateWS(point))[2])
-    response = make_response(jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point))
+    response = make_response(jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=json.loads(amenityCount), amenityGJ=json.loads(amenityGJ), point=point))
     response.headers['content-type'] = 'application/json'
     return response
     #return jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point)

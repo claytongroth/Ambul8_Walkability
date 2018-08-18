@@ -11,7 +11,7 @@ getData.airQuality = function () {
 }
 
 //function retrieves crime data from an api
-getData.crime = function () {
+getData.crime = function (current, lat, lng) {
     var results;
     var request = new XMLHttpRequest();
         request.open(
@@ -30,7 +30,7 @@ getData.crime = function () {
             stats.update();
         }
         request.send();
-    $.getJSON("crime.json", function (json){
+    $.getJSON("/static/js/crime.json", function (json){
         console.log(json);
 
         //set the current results for crime data for use in other functions
@@ -57,7 +57,6 @@ getData.walkability = function () {
 	$.getJSON(queryString , function (data) {
 		console.log('Something Returned from Server');
         console.log(data);
-
         //assign all of the data as needed
         current.isochroneGJ = data.isochroneGJ;
         current.WS = data.WS;
@@ -69,7 +68,7 @@ getData.walkability = function () {
         graphs.update();
         map.update();
         stats.update();
-
+    
 	}).fail( function (error) {
 		console.log("server request failed. see error below");
 		console.log(error);
