@@ -53,8 +53,8 @@ map.establish = function (){
         .on("markgeocode" , function(e){
             //let the lat long coordinates from the result object from the plugin
             var latlongPar = e.geocode.center;
-            lat = latlongPar.lat;
-            lng = latlongPar.lng;
+            lat = Number(latlongPar.lat);
+            lng = Number(latlongPar.lng);
 
             //make change to the whole interface
             map.locationChange();
@@ -63,8 +63,8 @@ map.establish = function (){
     
     map.mymap.on('contextmenu', function(e) {
     console.log(e.latlng.lat + ", " + e.latlng.lng)
-        lat = e.latlng.lat 
-        lng = e.latlng.lng
+        lat = Number(e.latlng.lat); 
+        lng = Number(e.latlng.lng);
 
         map.locationChange();
     });

@@ -50,6 +50,10 @@ getData.crime = function (current, lat, lng) {
 //function retrieves walkability data, this includes isochrone, gjson geomentry and walkability stats
 getData.walkability = function () {
     var results;
+
+    //reduce the number of decimal places in the coordinates to avoid tripping up the server
+    lat = Number(lat.toFixed(5));
+    lng = Number(lng.toFixed(5));
 	
 	var queryString = $SCRIPT_ROOT + '/walkability/' + lat + '/' + lng;
 	
