@@ -52,7 +52,7 @@ def generateIsochrone(point):
     ns = [20 if node in node_colors else 0 for node in G.nodes()]
     fig, ax = ox.plot_graph(G, fig_height=8, node_color=nc, node_size=ns, node_alpha=0.8, node_zorder=2, show = False)
     GJp = mplleaflet.fig_to_geojson(fig=ax.figure)
-    return json.dumps(GJp)
+    return GJp
 
 # this function:
 # generates the Walk Score as per the equation we have built for the given location

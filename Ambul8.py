@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify, make_response
 import json
 import osmnx as ox
 import networkx as nx
@@ -26,7 +26,10 @@ def receive_coords(lat, lng):
     WS = ((amb.generateWS(point))[0])
     amenityCount = ((amb.generateWS(point))[1])
     amenityGJ = ((amb.generateWS(point))[2])
-    return jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point)
+    response = make_response(jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point))
+    response.headers['content-type'] = 'application/json'
+    return response
+    #return jsonify(isochroneGJ=isochroneGJ, WS=WS, amenityCount=amenityCount, amenityGJ=amenityGJ, point=point)
 
 
 if __name__ == "__main__":
