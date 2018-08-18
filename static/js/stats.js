@@ -25,7 +25,7 @@ stats.color = function(d) {
 
 //updates the map with new information provided from the backend server
 stats.update = function () {
-    ;
+    console.log("stats update function called");
 }
 
 //do any needed element binding to event listeners in this function
