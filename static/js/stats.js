@@ -23,9 +23,36 @@ stats.color = function(d) {
 }
 
 
+
 //updates the map with new information provided from the backend server
 stats.update = function () {
     console.log("stats update function called");
+
+    //update the core statistics
+    d3.select("#statTotalScore").html(current.WS);
+
+    //loop through each of the different keys inside of the ammenities count object
+    console.log("Starting to update amenities info");
+    keysArray = Object.keys(current.amenityCount);
+
+    if (keysArray.length > 0){
+        console.log("At least one amenity in area");
+        //select the unorder list containing ammenities
+        d3.select("#amenitiesList")
+            .selectAll("li")
+            .data(keysArray)
+            .enter()
+            .append("li")
+            .attr("class" , "statItem")
+            .html(function(d){
+                return d.replace("_" , " ").replace("_" , " ") + ": " + current.amenityCount[d];
+        });
+    } else {
+        console.log("There are no amenities in this area");
+        d3.select("#amenitiesList")
+            .append("li")
+            .html("This Area does not have any amenities...Sorry!");
+    }
 }
 
 //do any needed element binding to event listeners in this function

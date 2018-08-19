@@ -49,6 +49,10 @@ ul {
 	fill : orange;
 }
 
+/*capitalizes the ammenities item labels*/
+.statItem {
+    text-transform : capitalize;
+}
 
 /**These classes will be dynamically applied to text in the walkability score selection to properly color code them.
 This is an attempt to prevent javascript or d3 from haneling styling directly.
