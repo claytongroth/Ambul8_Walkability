@@ -7,7 +7,7 @@ var graphs = {};
 
 //lists of values for all three data serises which will be used by d3 to drive construction of graphs
 graphs.scoreList = [
-    {walk : 45 , saftey : 1, airQuality : 1, barType : "Choice", label : "Your Chooice, MA", color : "red"},//record that the end user choose, by default it is Madison WI
+    {walk : 45 , saftey : 1, airQuality : 1, barType : "choice", label : "Your Chooice, MA", color : "red"},//record that the end user choose, by default it is Madison WI
     {walk : 2 , saftey : 1, airQuality : 1, barType : "rural", label : "Norware, NS", color : "blue"},//record for rural example to compare with
     {walk : 95 , saftey : 1, airQuality : 1, barType : "urban", label : "New York, NY", color : "green"}//record for every urban good area to walk in
 ]
@@ -36,14 +36,14 @@ graphs.returnAirQuality = function(element) {return element.returnAirQuality;};
 //create the scales that will generate the height attributes of svg rectangles
 graphs.heightScaleWalk = d3.scaleLinear()
 	.domain([d3.max(graphs.scoreList , graphs.returnWalk)  , d3.min(graphs.scoreList , graphs.returnWalk) ])
-	.range([10 , graphs.height - graphs.paddingBarLabel]);
+	.range([graphs.height - graphs.paddingBarLabel, 10]);
 
 graphs.heightScaleSaftey = d3.scaleLinear()
 	.domain([d3.max(graphs.scoreList , graphs.returnSaftey)  , d3.min(graphs.scoreList , graphs.returnSaftey) ])
-	.range([10 , graphs.height - graphs.paddingBarLabel]);
+	.range([graphs.height - graphs.paddingBarLabel, 10]);
 graphs.heightScaleAirQuality = d3.scaleLinear()
 	.domain([d3.max(graphs.scoreList , graphs.returnAirQuality)  , d3.min(graphs.scoreList , graphs.returnAirQuality) ])
-	.range([10 , graphs.height - graphs.paddingBarLabel]);
+	.range([graphs.height - graphs.paddingBarLabel, 10]);
 
 
 //generates the svg originally before they can be modified
@@ -85,10 +85,12 @@ graphs.establish = function () {
 		.data(graphs.scoreList)
 		.enter()
 		.append("rect")
-		.attr("class" , "bar")
+		.attr("class" , function(d){
+			return "bar " + d.barType;
+		})
 		.attr("width" , graphs.barWidth)
 		.attr("x" , function(d, i){
-			return i * graphs.width / graphs.scoreList.length;
+			return (i * graphs.width / graphs.scoreList.length) + (graphs.barPadding / 2);
 		})
 		.attr("height" , function(d){
 			return graphs.heightScaleWalk(d.walk);
@@ -103,23 +105,46 @@ graphs.establish = function () {
 			return d.label;
 		});
 	
+	//include a set of # labels on top tops of each graph
+	graphs.scoreWalk.select(".graphInterior")
+		.selectAll(".bar-value")
+		.data(graphs.scoreList)
+		.enter()
+		.append("text")
+		.style("fill" , "black")
+		.attr("class" , function(d){
+			return "bar-value " + d.barType;
+		})
+		.attr("text-anchor" , "middle")
+		.text(function(d){
+			return d.walk;
+		})
+		.attr("x" , function(d, i) {
+			return (i * graphs.width / graphs.scoreList.length) + (graphs.barPadding / 2) + (graphs.barWidth / 2);
+		})
+		.attr("y" , function(d){
+			return graphs.height - graphs.heightScaleWalk(d.walk) - 1;
+		});
+
+
 	//each of the bars needs a label below it
 	graphs.scoreWalk.selectAll(".bar-label")
 		.data(graphs.scoreList)
 		.enter()
 		.append("text")
-		.attr("class" , "bar-label")
+		.style("fill" , "black")
+		.attr("class" , function(d){
+			return "bar-label " + d.barType; 
+		})
 		.attr("text-anchor" , "middle")
 		.text(function(d){
 			return d.label;
 		})
 		.attr("x" , function(d,i){
-			return (i * graphs.width / graphs.scoreList.length) + (graphs.barWidth / 2) + graphs.paddingLeft;
+			return (i * graphs.width / graphs.scoreList.length) + (graphs.barWidth / 2) + graphs.paddingLeft + (graphs.barPadding / 2);
 		})
 		.attr("y" , (graphs.height + graphs.paddingTop) + (graphs.paddingBoom / 2) )
 		;
-
-	//include a set of # labels on top tops of each graph
 	
 	//give the graph a title
 	graphs.scoreWalk.append("text")
@@ -135,7 +160,7 @@ graphs.establish = function () {
 		.text("Walkability Score")
 		.attr("x" , -((graphs.height /  2) + graphs.paddingTop) )
 		.attr("y" , graphs.paddingLeft / 2 )
-		.attr("transform" , "rotate(-90)")
+		.attr("transform" , "rotate(-90)");
 
 
 	//be sure to include graph axis
@@ -148,4 +173,41 @@ graphs.establish = function () {
 //updates the graph to reflect changes in the dataset
 graphs.update = function () {
 	console.log("update graph function called");
+
+	//update the walkability score info
+	graphs.scoreList[0].walk = current.WS;
+	graphs.scoreList[0].label = current.city;
+
+	console.log("This is the list that is going to be acted on");
+	console.log(graphs.scoreList);
+
+	//update the d3 scales according to the new min max values
+	graphs.heightScaleWalk.domain([d3.max(graphs.scoreList , graphs.returnWalk)  , d3.min(graphs.scoreList , graphs.returnWalk) ]);
+	graphs.heightScaleSaftey.domain([d3.max(graphs.scoreList , graphs.returnSaftey)  , d3.min(graphs.scoreList , graphs.returnSaftey) ]);
+	graphs.heightScaleAirQuality.domain([d3.max(graphs.scoreList , graphs.returnAirQuality)  , d3.min(graphs.scoreList , graphs.returnAirQuality) ]);
+
+	//change the bar height
+	d3.selectAll(".bar")
+		.attr("y" , function(d){
+			return graphs.height - graphs.heightScaleWalk(d.walk);
+		})
+		.attr("height" , function(d){
+			return graphs.heightScaleWalk(d.walk);
+		});
+
+	//change the bar labels below graph
+	d3.selectAll(".bar-label")
+		.text(function(d){
+			return d.label;
+		})
+
+	//change the number labels
+	d3.select(".bar-value")
+		.text(function(d){
+			return d.walk;
+		})
+		.attr("y" , function(d){
+			return graphs.height - graphs.heightScaleWalk(d.walk) - 1;
+		});
+
 };
