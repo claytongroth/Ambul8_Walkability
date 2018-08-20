@@ -6,9 +6,25 @@ var getData = {};
 
 //function that retrieves air quality data for use by other interface objects
 getData.airQuality = function () {
-    var results;
-    return results;
-}
+
+    //below is the access tokin I registered for, it is needed to use the api
+    //21e16a3d28e1e6f71a00129e7a0d375ba880e282
+    var tokin = "21e16a3d28e1e6f71a00129e7a0d375ba880e282";
+
+    //sample url https://api.waqi.info/feed/geo:10.3;20.7/?token=demo
+    //constructed url which allows for response from api to go through
+    var url = "https://api.waqi.info/feed/geo:" + lat +  ";" + lng + "/?token=" + tokin;
+
+    //request the data from the air quality API
+    console.log("requesting air quality data for: " + url);
+    $.getJSON(url, function(response){
+        console.log("See air quality data below");
+        
+        //extracting the air quality score
+        current.airQuality = response.data.aqi;
+        console.log(current.airQuality);
+    });
+};
 
 //function retrieves crime data from an api
 getData.crime = function (current, lat, lng) {

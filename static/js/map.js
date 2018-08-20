@@ -92,7 +92,7 @@ map.locationChange = function (){
     //get data from data getters
     getData.walkability();
     //crime data getter here
-    //air quality one here
+    getData.airQuality();
 };
 
 //zooms map to the correctly set lat and long, default is Madison, WI
