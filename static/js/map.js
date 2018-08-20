@@ -93,6 +93,7 @@ map.locationChange = function (){
     getData.walkability();
     //crime data getter here
     getData.airQuality();
+    
 };
 
 //zooms map to the correctly set lat and long, default is Madison, WI
@@ -100,24 +101,33 @@ map.zoomTo = function () {
     map.mymap.panTo(new L.LatLng(map.lat, map.lng));
 }
 
-map.addGJ = function (){
-        var smallIcon = new L.Icon({
-        iconSize: [27, 27],
-        iconAnchor: [13, 27],
-        popupAnchor:  [1, -24],
-        iconUrl: '/Flask/c.png' // None for now just to block markers
-                    });
 
-
-      var myLayer = L.geoJson(GeJ, {
-      pointToLayer: function (feature, latlng) {
-            return L.marker(latlng, {icon: smallIcon});
-                                    }
-                              }).addTo(map.mymap);
-                    }
 
 //updates the map with new information provided from the backend server
 map.update = function () {
     console.log("update map has been called");
-    ;
-}
+    console.log(current.isochroneGJ)
+    
+    isoStyle = function (feature){
+        //var stringers = feature.properties.html
+        //var subs = stringers.substring(1109,1115)
+        var geojsonMarkerOptions = {
+            radius: 8,
+            fillColor: feature.properties.html.substring(1109,1116),
+            color: feature.properties.html.substring(1109,1116),
+            weight: 1,
+            opacity: 0.8,
+            fillOpacity: 0.8
+            //1109 - 1115
+        };
+        console.log(geojsonMarkerOptions)
+        return geojsonMarkerOptions;
+    }; 
+        L.geoJSON(current.isochroneGJ, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, isoStyle(feature));
+            }
+        }).addTo(map.mymap);    
+
+    
+};
