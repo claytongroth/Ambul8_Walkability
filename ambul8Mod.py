@@ -65,43 +65,54 @@ def generateWS(point):
     NewMin = 0
     OldRange = (max - min)
     NewRange = (NewMax - NewMin)
-    G = ox.core.graph_from_point(point, distance = 500, network_type='walk')
-    all_pois = ox.pois_from_point(point, distance = 500)
-    AmenityCount = all_pois['amenity'].value_counts()
-    AmenityCount =  AmenityCount.to_json()
-    #AmenityCount = str(AmenityCount)
-    stats = ox.basic_stats(G, area=500)
-    POIshapes =  all_pois['geometry'].centroid
-    POICoordslist = map(getXY, POIshapes)
-    WeightedPOIDistances = []
-    for coordset in POICoordslist:
-        orig_node = ox.get_nearest_node(G, (point))
-        dest_node = ox.get_nearest_node(G, (coordset))    # The issue has to be here because the individual lat lon list for POIs are accurate but the 'nodes' all display as if they are in the same place. Also its returning a distance of 688.8 m which isn't within 500m
-        Dpoi = nx.shortest_path_length(G, orig_node, dest_node, weight='length')
-        if Dpoi > 0:
-            weight = 1/(Dpoi)
-        else:
-            weight = 1
-        WeightedPOIDistances.append(weight * Dpoi)
-    rawWalkability =  stats['street_density_km'] * .007 + stats['node_density_km'] *.30 + stats['street_segments_count']*.30 + (sum(WeightedPOIDistances)) * 1000
-    Walkscore = int(((rawWalkability - min) * NewRange) / OldRange) + NewMin
-    if rawWalkability > max:
-        Walkscore = 100
-    if rawWalkability < min:
-        Walkscore = 0
-    poidata = []
-    poidata = []
-    for i, row in all_pois.iterrows():
-        geom = getXY(row['geometry'].centroid)
-        latitude = geom[0]
-        longitude = geom[1]
-        poidata.append([row["amenity"], latitude, longitude])
-    col = ["amenity", "latitude", "longitude"]
-    poi_df = pd.DataFrame(poidata, columns = col)
-    poiGJ2 = poi_df.to_json(orient = 'index')
+    try:
+        G = ox.core.graph_from_point(point, distance = 500, network_type='walk')
+        all_pois = ox.pois_from_point(point, distance = 500)
+        AmenityCount = all_pois['amenity'].value_counts()
+        AmenityCount =  AmenityCount.to_json()
+        #AmenityCount = str(AmenityCount)
+        stats = ox.basic_stats(G, area=500)
+        POIshapes =  all_pois['geometry'].centroid
+        POICoordslist = map(getXY, POIshapes)
+        WeightedPOIDistances = []
+        for coordset in POICoordslist:
+            orig_node = ox.get_nearest_node(G, (point))
+            dest_node = ox.get_nearest_node(G, (coordset))    # The issue has to be here because the individual lat lon list for POIs are accurate but the 'nodes' all display as if they are in the same place. Also its returning a distance of 688.8 m which isn't within 500m
+            Dpoi = nx.shortest_path_length(G, orig_node, dest_node, weight='length')
+            if Dpoi > 0:
+                weight = 1/(Dpoi)
+            else:
+                weight = 1
+            WeightedPOIDistances.append(weight * Dpoi)
+        rawWalkability =  stats['street_density_km'] * .007 + stats['node_density_km'] *.30 + stats['street_segments_count']*.30 + (sum(WeightedPOIDistances)) * 1000
+        Walkscore = int(((rawWalkability - min) * NewRange) / OldRange) + NewMin
+        if rawWalkability > max:
+            Walkscore = 100
+        if rawWalkability < min:
+            Walkscore = 0
+        poidata = []
+        poidata = []
+        for i, row in all_pois.iterrows():
+            geom = getXY(row['geometry'].centroid)
+            latitude = geom[0]
+            longitude = geom[1]
+            poidata.append([row["amenity"], latitude, longitude])
+        col = ["amenity", "latitude", "longitude"]
+        poi_df = pd.DataFrame(poidata, columns = col)
+        poiGJ = poi_df.to_json(orient = 'index')
+        statsJSON = {
+            "street_density_km": str(stats['street_density_km']),
+            "node_density_km": str(stats['node_density_km']),
+            "street_segments_count":  str(stats['street_segments_count'])
+        }
+    except:
+        Walkscore = 1
+        AmenityCount = "0"
+        poiGJ = "0"
+        statsJSON = "0"
     #poiGJ = df_to_geojson(poi_df, col)
     #poiGJ = json.dumps(poiGJ)
-    return Walkscore, AmenityCount, poiGJ2
+    return Walkscore, AmenityCount, poiGJ, statsJSON
 
 
 #     test
