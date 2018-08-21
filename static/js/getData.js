@@ -41,7 +41,7 @@ getData.crime = function (countyName) {
         console.log("successfully loaded crime csv");
         console.log(data);
 
-        var result;//place holder for what will be fund in function
+        var result = null;//place holder for what will be fund in function
 
         //when the data is loaded or already loaded
         data.forEach(function(record){
@@ -50,8 +50,10 @@ getData.crime = function (countyName) {
             }
         });
 
-    console.log("the crime rate found is: " + result);
-    //callback of some kind to update interface
+        current.crime = result;
+        console.log("the crime rate found is: " + current.crime);
+        //callback of some kind to update interface
+        stats.updateCrime();
 
     });
 };
