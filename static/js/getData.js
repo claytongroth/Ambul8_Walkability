@@ -21,47 +21,42 @@ getData.airQuality = function () {
         console.log("See air quality data below");
         
         //extracting the air quality score
-        current.airQuality = response.data.aqi;
-        console.log(current.airQuality);
+        if (response.hasOwnProperty("data")){
+            current.airQuality = response.data.aqi;
+            console.log(current.airQuality);
+        } else {
+            console.log("there is not air quality data for this area");
+            current.airQuality = null;
+        }
+        
     });
 };
 
 //function retrieves crime data from an api
-getData.crime = function (current, lat, lng) {
-    var results;
-    var request = new XMLHttpRequest();
-        request.open(
-            "GET", 
-            "https://geo.fcc.gov/api/census/block/find?latitude="+ lat + "&longitude=" + lng + "&showall=true&format=json");
-        request.onload = function (){
-            var crimeJdata = JSON.parse(this.response);
-            console.log(crimeJdata.County.name);
+getData.crime = function (countyName) {
+    
+    var url = $SCRIPT_ROOT + "/crime.csv";
 
-            //set the current results for crime data for use in other functions
-            current.crime = json;
+    d3.csv(url, function(data){
+        console.log("successfully loaded crime csv");
+        console.log(data);
 
-            //change the interface to reflect the new data
-            graphs.update();
-            map.update();
-            stats.update();
-        }
-        request.send();
-    $.getJSON("/static/js/crime.json", function (json){
-        console.log(json);
+        var result = null;//place holder for what will be fund in function
 
-        //set the current results for crime data for use in other functions
-        current.crime = json;
+        //when the data is loaded or already loaded
+        data.forEach(function(record){
+            if (record.state.toUpperCase() === current.state.toUpperCase() && current.county.toUpperCase() === record.county.toUpperCase()) {
+                result = record.crime_rate_per_100000;
+            }
+        });
 
-        //change the interface to reflect the new data
-        graphs.update();
-        map.update();
-        stats.update();
+        current.crime = result;
+        console.log("the crime rate found is: " + current.crime);
+        //callback of some kind to update interface
+        stats.updateCrime();
+
     });
-    
-    // Next is to create a regex to match the requested county info to the JSON records
-    
-    return results;
-}
+};
 
 //function retrieves walkability data, this includes isochrone, gjson geomentry and walkability stats
 getData.walkability = function () {
@@ -83,6 +78,7 @@ getData.walkability = function () {
         current.amenityCount = data.amenityCount;
         current.amenityGJ = data.amenityGJ;
         current.point = data.amenityGJ;
+        current.statsJson = data.statsJson;
 
         //change the interface to reflect the new data
         graphs.update();

@@ -17,6 +17,10 @@ app.config.update(dict(
 def my_form():
     return render_template('mapRefined.html')
 
+@app.route('/crime.csv')
+def csvHost():
+    return render_template('crime.csv')
+
 @app.route('/walkability/<lat>/<lng>', methods=['GET', 'POST'])
 def receive_coords(lat, lng):
     lat = float(lat)

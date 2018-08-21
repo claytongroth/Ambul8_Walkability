@@ -8,8 +8,11 @@ var lng;
 //it also contains results from the last filled request
 current = {
     //info used to make request
+    road : null,
     city : null, 
     state : null,
+    county : null,
+    country : null,
 
     //information handed back from walkability
     isochroneGJ : null,
@@ -17,6 +20,7 @@ current = {
     amenityCount : null,
     amenityGJ : null,
     point : null,
+    statsJson : null,
 
     //infromation gained from air quality and walkability
     airQuality : null,
@@ -80,18 +84,24 @@ map.locationChange = function (){
 
         //assign the attribute information to the current state tracking object so it can be used by many differnt functions
         //in many different modules inside of the project
+        current.road = response.address.road;
         current.city = response.address.city;
         current.state = response.address.state;
+        current.county = response.address.county;
+        current.country = response.address.country;
 
-        //call get crime data now. crime function will use address information taken from global current object
-        //getData.crime();
+        //Both of these update functions are dependent on address information rather than coordinates
+        //crime data getter here
+        getData.crime();
+        stats.updateAddress();
+        
     }).fail(function(error){
         console.log("OSM attempt failed");
         console.log(error);
     });
     //get data from data getters
     getData.walkability();
-    //crime data getter here
+    //air quality data getter here
     getData.airQuality();
     
 };
@@ -120,7 +130,6 @@ map.update = function () {
             fillOpacity: 0.8
             //1109 - 1115
         };
-        console.log(geojsonMarkerOptions)
         return geojsonMarkerOptions;
     }; 
         L.geoJSON(current.isochroneGJ, {
