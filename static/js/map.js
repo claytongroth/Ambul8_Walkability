@@ -10,6 +10,7 @@ current = {
     //info used to make request
     city : null, 
     state : null,
+    county : null,
 
     //information handed back from walkability
     isochroneGJ : null,
@@ -82,16 +83,19 @@ map.locationChange = function (){
         //in many different modules inside of the project
         current.city = response.address.city;
         current.state = response.address.state;
+        current.county = response.address.county;
 
         //call get crime data now. crime function will use address information taken from global current object
-        //getData.crime();
+        //crime data getter here
+        getData.crime();
+        
     }).fail(function(error){
         console.log("OSM attempt failed");
         console.log(error);
     });
     //get data from data getters
     getData.walkability();
-    //crime data getter here
+    //air quality data getter here
     getData.airQuality();
     
 };

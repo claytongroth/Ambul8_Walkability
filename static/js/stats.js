@@ -30,6 +30,10 @@ stats.update = function () {
 
     //update the core statistics
     d3.select("#statTotalScore").html(current.WS);
+    //stats from the JSON stats thing
+    d3.select("#statStreetDensity").html(current.statsJson.street_density_km);
+    d3.select("#statNodeDensity").html(current.statsJson.node_density_km);
+    d3.select("#statSegCount").html(current.statsJson.street_segments_count);
 
     //loop through each of the different keys inside of the ammenities count object
     console.log("Starting to update amenities info");
