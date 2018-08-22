@@ -99,7 +99,9 @@ def generateWS(point):
             poidata.append([row["amenity"], latitude, longitude])
         col = ["amenity", "latitude", "longitude"]
         poi_df = pd.DataFrame(poidata, columns = col)
-        poiGJ = poi_df.to_json(orient = 'index')
+        poiGJ = df_to_geojson(poi_df, col)
+        poiGJ2 = json.dumps(poiGJ)
+        ##poiGJ = poi_df.to_json(orient = 'index')
         statsJSON = {
             "street_density_km": str(stats['street_density_km']),
             "node_density_km": str(stats['node_density_km']),
@@ -108,11 +110,11 @@ def generateWS(point):
     except:
         Walkscore = 1
         AmenityCount = "0"
-        poiGJ = "0"
+        poiGJ2 = "0"
         statsJSON = "0"
     #poiGJ = df_to_geojson(poi_df, col)
     #poiGJ = json.dumps(poiGJ)
-    return Walkscore, AmenityCount, poiGJ, statsJSON
+    return Walkscore, AmenityCount, poiGJ2, statsJSON
 
 
 #     test

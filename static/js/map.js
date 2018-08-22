@@ -62,6 +62,7 @@ map.establish = function (){
 
             //make change to the whole interface
             map.locationChange();
+            map2.zoomTo(lat, lng);
         })
         .addTo(map.mymap);
     
@@ -71,6 +72,7 @@ map.establish = function (){
         lng = Number(e.latlng.lng);
 
         map.locationChange();
+        map2.zoomTo(lat, lng);
     });
 }
 
@@ -109,6 +111,8 @@ map.locationChange = function (){
 //zooms map to the correctly set lat and long, default is Madison, WI
 map.zoomTo = function () {
     map.mymap.panTo(new L.LatLng(map.lat, map.lng));
+    console.log("zooming to Lat, Lon")
+    console.log((map.lat, map.lng))
 }
 
 
@@ -116,11 +120,12 @@ map.zoomTo = function () {
 //updates the map with new information provided from the backend server
 map.update = function () {
     console.log("update map has been called");
-    console.log(current.isochroneGJ)
-    
+
+    if (typeof isochroneLayer !== 'undefined') {
+        map.mymap.removeLayer(isochroneLayer);
+    };
+   
     isoStyle = function (feature){
-        //var stringers = feature.properties.html
-        //var subs = stringers.substring(1109,1115)
         var geojsonMarkerOptions = {
             radius: 8,
             fillColor: feature.properties.html.substring(1109,1116),
@@ -132,11 +137,21 @@ map.update = function () {
         };
         return geojsonMarkerOptions;
     }; 
-        L.geoJSON(current.isochroneGJ, {
+    
+    var markerGroup = [];
+    
+    isochroneLayer= L.geoJSON(current.isochroneGJ, {
             pointToLayer: function (feature, latlng) {
+                markerGroup.push(L.circleMarker(latlng, isoStyle(feature)));
                 return L.circleMarker(latlng, isoStyle(feature));
-            }
-        }).addTo(map.mymap);    
-
+            },
+        
+            
+    }).addTo(map.mymap);  
+    
+    var group = L.featureGroup(markerGroup);
+    map.mymap.fitBounds(group.getBounds()); 
+     
+    map2.update();
     
 };

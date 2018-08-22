@@ -9,6 +9,7 @@ window.onload = function () {
     //establish objects needed by calling their establish methods
     //they are not called in advance because the dom might not be rendered fully yet.
     map.establish();
+    map2.establish();
     stats.establish();
     graphs.establish();
     

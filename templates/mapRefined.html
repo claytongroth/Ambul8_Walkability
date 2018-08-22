@@ -19,7 +19,14 @@
 	  
     <!-- CSS custom to this project --> <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
     
-   
+    <!-- CSS for awesome leaflet --> <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/leaflet.awesome-markers.css') }}">
+    
+    <!-- leaflet icons --><link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+
+     <!-- fontawesome for icons -->
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
 
 	
     
@@ -52,9 +59,10 @@
                          <div id="mapid"></div>
 				     </div>
 
-					<div id="isochrone" class="col panel">
+					<div id="map2" class="col panel">
 						<h3>The Walkable Area of Your Community!</h3>
-                        <img id="isochrone" />
+                        <!--<img id="isochrone" />-->
+                        <div id="mapid2"></div>
 					</div><!--end of column that contains the isochrone -->
             </div><!--end of first row which contains the isochrone and map -->
             
@@ -103,6 +111,8 @@
     
 <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script><!-- contains object for building leaflet map  -->
     
+<script type="text/javascript" src="{{ url_for('static', filename='js/map2.js') }}"></script><!-- contains object for building leaflet map  -->
+    
 <script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script><!-- contains object for building bargraphs -->
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/getData.js') }}"></script><!-- contains object for building bargraphs -->
@@ -114,6 +124,8 @@
 <script type="application/json" src="{{ url_for('static', filename='js/crime.json') }}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/crime.js') }}"></script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.awesome-markers.js') }}"></script>
 
     
 </html>

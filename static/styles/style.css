@@ -18,6 +18,11 @@ ul {
     height: 500px; 
     width: 500px;
 }
+#mapid2 { 
+    height: 500px; 
+    width: 500px;
+}
+
 .panel {
     border-style: solid;
     border-radius: 25px;
