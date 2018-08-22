@@ -28,6 +28,8 @@ getData.airQuality = function () {
             console.log("there is not air quality data for this area");
             current.airQuality = null;
         }
+
+        graphs.update("graphAirQualityScore");
         
     });
 };
@@ -54,6 +56,7 @@ getData.crime = function (countyName) {
         console.log("the crime rate found is: " + current.crime);
         //callback of some kind to update interface
         stats.updateCrime();
+        graphs.update("graphSafetyScore");
 
     });
 };
@@ -81,7 +84,7 @@ getData.walkability = function () {
         current.statsJson = data.statsJson;
 
         //change the interface to reflect the new data
-        graphs.update();
+        graphs.update("graphWalkScore");
         map.update();
         stats.update();
     
