@@ -41,7 +41,7 @@ map2.update = function () {
     poiStyle = function (feature){
         if (feature.properties.amenity == "restaurant"){
             var poigeojsonMarkerOptions = L.AwesomeMarkers.icon({
-                icon: 'fa-cutlery',
+                icon: 'utensils',
                 markerColor: 'red',
                 prefix: 'fa'
 
@@ -53,9 +53,27 @@ map2.update = function () {
                 prefix: 'fa'
 
             });
-        } else {
+        } else if (feature.properties.amenity == "cafe"){
             var poigeojsonMarkerOptions = L.AwesomeMarkers.icon({
-                icon: 'star',
+                icon: 'coffee',
+                markerColor: 'purple',
+                prefix: 'fa'
+            });
+        } else if (feature.properties.amenity == "bench"){
+            var poigeojsonMarkerOptions = L.AwesomeMarkers.icon({
+                icon: 'newspaper',
+                markerColor: 'darkred',
+                prefix: 'fa'
+            });      
+         } else if (feature.properties.amenity == "bicycle_rental"){
+            var poigeojsonMarkerOptions = L.AwesomeMarkers.icon({
+                icon: 'bicycle',
+                markerColor: 'green',
+                prefix: 'fa'
+            });
+         } else {
+            var poigeojsonMarkerOptions = L.AwesomeMarkers.icon({
+                icon: 'map-pin',
                 markerColor: 'cadetblue',
                 prefix: 'fa'
 
@@ -68,8 +86,11 @@ map2.update = function () {
     
     console.log(current.amenityGJ)
     
+    var geojsonPOI = GeoJSON.parse(current.amenityGJ, {Point: ["latitude", "longitude"]});
     
-    poiLayer= L.geoJSON(current.amenityGJ, {
+    console.log(geojsonPOI)
+    
+    poiLayer= L.geoJSON(geojsonPOI, {
             pointToLayer: function (feature, latlng) {
                 poimarkerGroup.push(L.marker(latlng, poiStyle(feature)));
                 return L.marker(latlng, {icon: poiStyle(feature)});

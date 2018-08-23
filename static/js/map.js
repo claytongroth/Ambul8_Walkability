@@ -3,6 +3,8 @@
 var map = {};//makeing the master object for the module
 var lat;
 var lng;
+var sourceMarker1;
+var sourceMarker2;
 
 //object which will contain state information about the request and general state of interface element and associated variables
 //it also contains results from the last filled request
@@ -33,21 +35,67 @@ map.lng = -89.401605;
 
 //main function the creates the map when the page is first rendered. It is not called untill all of the dom elements have been loaded
 map.establish = function (){
+   var latlons = {
+      map: [40.758896, -73.985130],
+      src1: [40.758896, -73.985130],
+      src2: [40.758896, -73.989930]
+    };
+    map.mymap = L.map('mapid', { zoomControl: false }).setView(latlons.map, 14);
+    map.mymap.attributionControl.addAttribution("ÖPNV Daten © <a href='https://www.vbb.de/de/index.html' target='_blank'>VBB</a>");
+    L.control.zoom({ position:'bottomleft' }).addTo(map.mymap);
+
+    r360.basemap({ style: 'dark', apikey: 'ERNGIFYE5NW4V6GCUTF614CGOI' }).addTo(map.mymap);
+
+    var sourceMarker1 = L.marker([map.lat, map.lng], { draggable: true }).addTo(map.mymap);
+    var sourceMarker2 = L.marker([map.lat, map.lng], { draggable: true }).addTo(map.mymap);
     
-    //build the map
-    map.mymap = L.map('mapid').setView([40.73692605118838, -73.99224906926378], 13);
-    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox.high-contrast',
-        accessToken: 'pk.eyJ1IjoiY2dyb3RoIiwiYSI6ImNqZ2w4bWY5dTFueG0zM2w0dTNkazI1aWEifQ.55SWFVBYzs08EqJHAa3AsQ'
-    }).addTo(map.mymap);
+    var polygonLayer = r360.leafletPolygonLayer().addTo(map.mymap);
+    polygonLayer.opacity = .6;
+    polygonLayer.setColors([{
+      'time': 300,
+      'color': '#c6dbef'
+    }, {
+      'time': 600,
+      'color': '#6baed6'
+    }, {
+      'time': 900,
+      'color': '#08306b'
+    }, ]);
+
+    var showPolygons = function(rezoom) {
+      var travelOptions = r360.travelOptions();
+      travelOptions.addSource(sourceMarker1);
+      travelOptions.addSource(sourceMarker2);
+      travelOptions.setTravelTimes([300, 600, 900]); //  2, 7 min 15min
+      travelOptions.setTravelType('walk');
+      travelOptions.setServiceKey('ERNGIFYE5NW4V6GCUTF614CGOI');
+      travelOptions.setServiceUrl('https://api.targomo.com/northamerica/');
+
+      r360.PolygonService.getTravelTimePolygons(travelOptions, function(polygons) {
+        polygonLayer.clearAndAddLayers(polygons, rezoom || false);
+      });
+    };
+
+    // call the helper function to display polygons with initial value
+    showPolygons(true);
+    // re-run the polygons when we move a marker
+    sourceMarker1.on('dragend', function(){ showPolygons(true); });
+    sourceMarker2.on('dragend', function(){ showPolygons(true); });
+
     
     //zoom to specified lat lng
     map.zoomTo();
     
     //add the search control for geocoding
+    var LeafIcon = L.AwesomeMarkers.icon({
+                icon: 'circle',
+                markerColor: 'red',
+                prefix: 'fa'
+
+    });
+    
     L.Control.geocoder({
+        defaultMarkGeocode: false,
         showResultIcons: false,
         placeholder: "Name of Place or Street Address",
         collapsed: false,
@@ -55,10 +103,19 @@ map.establish = function (){
         
         })
         .on("markgeocode" , function(e){
+             L.marker(e.geocode.center, {
+                icon: LeafIcon
+                    })
+            .addTo(map.mymap);
             //let the lat long coordinates from the result object from the plugin
             var latlongPar = e.geocode.center;
             lat = Number(latlongPar.lat);
             lng = Number(latlongPar.lng);
+        
+            
+            sourceMarker1.setLatLng([lat -.009, lng]);
+            sourceMarker2.setLatLng([lat, lng-.009]);
+            showPolygons(true);
 
             //make change to the whole interface
             map.locationChange();
@@ -70,7 +127,10 @@ map.establish = function (){
     console.log(e.latlng.lat + ", " + e.latlng.lng)
         lat = Number(e.latlng.lat); 
         lng = Number(e.latlng.lng);
-
+            
+        sourceMarker1.setLatLng([lat, lng]);
+        sourceMarker2.setLatLng([lat, lng]);
+        
         map.locationChange();
         map2.zoomTo(lat, lng);
     });
@@ -121,18 +181,19 @@ map.zoomTo = function () {
 map.update = function () {
     console.log("update map has been called");
 
+
     if (typeof isochroneLayer !== 'undefined') {
         map.mymap.removeLayer(isochroneLayer);
     };
    
     isoStyle = function (feature){
         var geojsonMarkerOptions = {
-            radius: 8,
+            radius: 3,
             fillColor: feature.properties.html.substring(1109,1116),
             color: feature.properties.html.substring(1109,1116),
             weight: 1,
-            opacity: 0.8,
-            fillOpacity: 0.8
+            opacity: 0.5,
+            fillOpacity: 0.5
             //1109 - 1115
         };
         return geojsonMarkerOptions;
@@ -155,3 +216,7 @@ map.update = function () {
     map2.update();
     
 };
+
+
+
+

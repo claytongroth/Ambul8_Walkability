@@ -40,7 +40,7 @@ def generateIsochrone(point):
     for u, v, k, data in G.edges(data=True, keys=True):
         data['time'] = data['length'] / meters_per_minute
 
-    iso_colors = ox.get_colors(n=len(trip_times), cmap='Blues', start=0.3, return_hex=True)
+    iso_colors = ox.get_colors(n=len(trip_times), cmap='Wistia', start=0.3, return_hex=True)
 
     # color the nodes
     node_colors = {}
@@ -100,8 +100,8 @@ def generateWS(point):
         col = ["amenity", "latitude", "longitude"]
         poi_df = pd.DataFrame(poidata, columns = col)
         poiGJ = df_to_geojson(poi_df, col)
-        poiGJ2 = json.dumps(poiGJ)
-        ##poiGJ = poi_df.to_json(orient = 'index')
+        ##poiGJ2 = json.dumps(poiGJ)
+        poiGJ2 = poi_df.to_json(orient = 'records')
         statsJSON = {
             "street_density_km": str(stats['street_density_km']),
             "node_density_km": str(stats['node_density_km']),

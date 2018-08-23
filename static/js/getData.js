@@ -72,7 +72,7 @@ getData.walkability = function () {
 	var queryString = $SCRIPT_ROOT + '/walkability/' + lat + '/' + lng;
 	
     console.log("I did it! we made a request to: " + queryString);
-	$.getJSON(queryString , function (data) {
+	$.getJSON(queryString, function (data) {
 		console.log('Something Returned from Server');
         console.log(data);
         //assign all of the data as needed
