@@ -50,6 +50,8 @@
 
     
 <body>
+
+     <!--This whole div is invisable in most cases. It contains a modal window to confirm if the user wants to select a specifc location. -->
     <div id="modal-window" class="hidden">
         <div class="modal-content">
             <h4>Hi There bud!</h4>
@@ -74,7 +76,7 @@
 				     </div>
 
 					<div id="map2" class="col panel">
-						<h3 id="poiHeader">Select a located on the map to the left first</h3>
+						<h3 id="poiHeader">Select a location on the map to the left</h3>
                         <!--<img id="isochrone" />-->
                         <div id="mapid2"></div>
                         <button class="hidden" id="moreInfoButton">Click here for Statistics and city comparisons</button>
@@ -88,17 +90,49 @@
                 <div class="col panel hidden">
                     <h3>Basic Statistics</h3>
                     <p>Your score for: <span id="locationString">street, address, city name, town name</span></p>
-                    <ul>
-                        <li>Total Walability Score: <span class="statItem" id="statTotalScore">XX</span> / 100</li>
-                        <li>Street Density: <span class="statItem" id="statStreetDensity">XX</span></li>
-                        <li>Node Density: <span class="statItem" id="statNodeDensity">XX</span></li>
-                        <li>Street Segments Count: <span class="statItem" id="statSegCount"></span></li>
-					   <li>Crime Score: <span class="statItem" id="statCrime">XX</span> / 100</li>
-                    </ul>
-                    
+                    <table>
+                        <tr> 
+                            <th>statistic</th>
+                            <th>Value</th>
+                            <th>Explanation</th>
+                        </tr>
+                        <tr>
+                            <td>Total Walability Score:</td>
+                            <td><span class="statItem" id="statTotalScore">XX</span> / 100 </td>
+                            <td class="Explanation">This is a derived from a varity of different factors but mostly from path network characteristics. It generally ranges from 0 to 100.</td>
+                        </tr>
+                        <tr>
+                            <td>Street Density: </td>
+                            <td><span class="statItem" id="statStreetDensity">XX</span></td>
+                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Node Density:</td>
+                            <td><span class="statItem" id="statNodeDensity">XX</span></td>
+                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Street Segments Count: </td>
+                            <td><span class="statItem" id="statSegCount">XX</span></td>
+                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Crime Rate Per 100000:</td>
+                            <td><span class="statItem" id="statCrime">XX</span></td>
+                            <td class="Explanation">Crime has an overall effect on how likely people might want to walk through their neighborhoods regardless of the physical infrastructure.
+                                The number reflects the county crime rate for your choosen location. This might differ drastically within the county so this is a very
+                                broad generalization.
+                            </td>
+                        </tr>
+                    </table>
+                    <br/>
                     <h3>Amenities</h3>
-                    <ul id="amenitiesList">
-                    </ul>
+                    <table id="amenitiesList">
+                        <tr>
+                            <th>Type</th>
+                            <th>Count</th>
+                        </tr>
+                    </table>
                     
                     
                 </div><!--end of the first column containing the basitic statistics -->
@@ -116,6 +150,8 @@
     <footer> credits: code is dependent on the following open source libraries and data sources: d3, leaflet, python, osmnx, osm, bootstrap and mathplotlib.</footer>          
 </body>
 
+<!--This script tag weirdness is needed because of flask. The js script are unable to tell what url they are from because of flask
+flasks prerendering takes are of this by transforming the following line into a javascript variable that contains the root directory of the page -->
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
@@ -135,10 +171,6 @@
     
 <!-- The main loop is in this module, it calls methods from the previous three mods -->
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
-<script type="application/json" src="{{ url_for('static', filename='js/crime.json') }}"></script>
-
-<script type="text/javascript" src="{{ url_for('static', filename='js/crime.js') }}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.awesome-markers.js') }}"></script>
 

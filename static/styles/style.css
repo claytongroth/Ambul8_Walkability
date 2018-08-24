@@ -25,15 +25,17 @@ button {
     height: 500px; 
     width: 500px;
 }
+#map2 {
+    opacity: 0;
+}
 
 .panel {
     border-style: solid;
     border-radius: 25px;
     margin: 1%;
     padding: 1.75%;
-
-    
 }
+
 
 .graph {
     background-color : white;
@@ -43,17 +45,45 @@ button {
     width : 40px;
 }
 
+#yesButton, #noButton {
+    width : 75px;
+    margin : auto;
+    margin-top : 0.5%;
+    margin-bottom : 0.5%;
+}
 
 
+
+/*Style stuff dealing with the tables for both the basic stats and amenities*/
+table {
+    border-collapse: collapse;
+    margin : auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-transform : capitalize;
+    text-align: center;
+}
+
+th , td {
+    padding-left : 25px;
+    padding-right : 25px;
+    padding-top : 5px;
+    padding-bottom : 5px;
+    font-size: 13px;
+}
+
+th {
+    background-color : rgb(200,200,200);
+}
+/*table data cell that contains an lengthy explainiation of the stats*/
+.Explanation {
+    text-align: left;
+}
 
 
 /**All style rules after this point are for classes that will be applied programmatically through javascript **/
-
-
-/*capitalizes the ammenities item labels*/
-.statItem {
-    text-transform : capitalize;
-}
 
 /**These classes will be dynamically applied to text in the walkability score selection to properly color code them.
 This is an attempt to prevent javascript or d3 from haneling styling directly.
@@ -62,25 +92,31 @@ This is an attempt to prevent javascript or d3 from haneling styling directly.
     cursor:crosshair;
 }
 
+
+
+
 /*styles of items that will appear when the user asks for more information*/
 .hidden {
     display : none;
 }
 
+/*id for the modal window that shows up when the user makes a tenitive request for a new location*/
 #modal-window {
     position: fixed; /* Stay in place */
     z-index: 10000000; /* Sit on top */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(255,255,255,0.5); /* Black w/ opacity */
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     padding-top: 100px; /* Location of the box */
   }
 
+  /* id for the white box of the modal window */
 .modal-content {
     margin: auto;
     background-color: #fefefe;
     width: 80%;
-    border: 1px solid #888;
+    border: 2px solid #888;
     padding: 2%;
+    border-radius: 15px;
   }
