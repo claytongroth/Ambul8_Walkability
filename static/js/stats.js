@@ -7,7 +7,7 @@ This module deals with all of the behavior of the basic statistics panel. this i
 var stats = {};
 
 stats.establish = function () {
-    //jquery references to scores in the basic stats box
+    //d3 references to scores in the basic stats box
     stats.totalScore = d3.select("#statTotalScore");
     stats.streetDensity = d3.select("#statStreetDensity");
     stats.NodeDensity = d3.select("statNodeDensity");
@@ -16,31 +16,25 @@ stats.establish = function () {
 }
 
 
-//picks the correct color for the given data value
-stats.color = function(d) {
-    //place a switch statement here
-	
-}
-
 //updates the address text in the stats box for the current location when the geocoder finishes processing
 stats.updateAddress = function(){
 
-    //if the road does not have a name
+    //if the road does not have a name then use an empty string instead
     if (current.road === null || current.road === undefined) {
         var road = "";
     } else {
         var road = current.road + ", ";
     };
 
-    //if the point is located in an area that is not a city
+    //if the point is located in an area that is not a city then use an empty string instead
     if (current.city === null || current.city === undefined){
         var city = "";
     } else {
         var city = current.city + ", ";
     };
     
+    //construct the final label that will be used in the basic stats box which includes the full address
     var addressString = road + city + current.county + ", " + current.country;
-
     d3.select("#locationString").html(addressString);
 }
 
@@ -70,6 +64,7 @@ stats.update = function () {
     console.log("Starting to update amenities info");
     keysArray = Object.keys(current.amenityCount);
 
+    //sometimes their are no amenities returned so the amenties count object has no keys. 
     if (keysArray.length > 0){
         console.log("At least one amenity in area");
         //select the unorder list containing ammenities
@@ -83,14 +78,10 @@ stats.update = function () {
                 return d.replace("_" , " ").replace("_" , " ") + ": " + current.amenityCount[d];
         });
     } else {
+        //if their are no amenities in the area then let the user know any do not use a list of objects that does not exist to generate a list
         console.log("There are no amenities in this area");
         d3.select("#amenitiesList")
             .append("li")
             .html("This Area does not have any amenities...Sorry!");
     }
-}
-
-//do any needed element binding to event listeners in this function
-stats.bindEvents = function () {
-    ;
-}
+};

@@ -13,6 +13,7 @@ window.onload = function () {
     stats.establish();
     graphs.establish();
 
+    //This binds the more info button so that more information is shown when it is clicked on
     d3.select("#moreInfoButton").on("click" , function(){
         console.log("showing more detailed information DIVs");
         d3.selectAll(".panel , #bottom-row")

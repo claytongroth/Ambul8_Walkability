@@ -20,7 +20,11 @@ getData.airQuality = function () {
     $.getJSON(url, function(response){
         console.log("See air quality data below");
         console.log(response);
+
         //extracting the air quality score
+        //sometimes the air quality api does not find a station that it considers near the lat long coordinate pair
+        //in those cases it returns null or the data object might not even be a property of the response.
+        //the if statements below prevent the script from crashing when the attribute does not exist
         if (response.hasOwnProperty("data")){
             current.airQuality = response.data.aqi;
             console.log(current.airQuality);
@@ -29,6 +33,7 @@ getData.airQuality = function () {
             current.airQuality = null;
         }
 
+        //update the air quality graph svg based on the newly entered results
         graphs.update("graphAirQualityScore");
         
     });
@@ -93,8 +98,4 @@ getData.walkability = function () {
 		console.log(error);
 		});
 
-}
-
-//testing to see if connection to flask server works correctly
-//getData.walkability([40.73692605118838, -73.99224906926378]);
-//getData.crime([40.73692605118838, -73.99224906926378]);
+};

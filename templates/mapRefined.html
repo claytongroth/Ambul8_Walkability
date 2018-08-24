@@ -50,6 +50,8 @@
 
     
 <body>
+
+     <!--This whole div is invisable in most cases. It contains a modal window to confirm if the user wants to select a specifc location. -->
     <div id="modal-window" class="hidden">
         <div class="modal-content">
             <h4>Hi There bud!</h4>
@@ -74,7 +76,7 @@
 				     </div>
 
 					<div id="map2" class="col panel">
-						<h3 id="poiHeader">Select a located on the map to the left first</h3>
+						<h3 id="poiHeader">Select a location on the map to the left</h3>
                         <!--<img id="isochrone" />-->
                         <div id="mapid2"></div>
                         <button class="hidden" id="moreInfoButton">Click here for Statistics and city comparisons</button>
@@ -116,6 +118,8 @@
     <footer> credits: code is dependent on the following open source libraries and data sources: d3, leaflet, python, osmnx, osm, bootstrap and mathplotlib.</footer>          
 </body>
 
+<!--This script tag weirdness is needed because of flask. The js script are unable to tell what url they are from because of flask
+flasks prerendering takes are of this by transforming the following line into a javascript variable that contains the root directory of the page -->
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>

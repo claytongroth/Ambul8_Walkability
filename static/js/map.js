@@ -1,32 +1,32 @@
 /**Module deals with making the map and updating it. All is done through a single map object **/
 
 var map = {};//makeing the master object for the module
-var lat;
-var lng;
+var lat;//the lat coordinate used by many different functions, methods and objects. It reflects the current location.
+var lng;//the lat coordinate used by many different functions, methods and objects. It reflects the current location.
 var sourceMarker1;
 var sourceMarker2;
 
 //object which will contain state information about the request and general state of interface element and associated variables
 //it also contains results from the last filled request
 current = {
-    //info used to make request
+    //info used to make request as well as information returned from the reverse geocoder.
     road : null,
     city : null, 
     state : null,
     county : null,
     country : null,
 
-    //information handed back from walkability
-    isochroneGJ : null,
-    WS : null,
-    amenityCount : null,
-    amenityGJ : null,
-    point : null,
-    statsJson : null,
+    //information handed back from walkability flask server
+    isochroneGJ : null,//will contain isochrome geojson object aka feature collection
+    WS : null,//will contain walkability score
+    amenityCount : null,//will contain array of objects which  have the counts of amentitiy types such as parks, parking and benches
+    amenityGJ : null,//contains GeoJson feature collection of amenity feature which can be mapped out
+    point : null,//the xy coordinate pair for the request location
+    statsJson : null,//contains statistics for the street density, node density, street segments count, crime score
 
-    //infromation gained from air quality and walkability
-    airQuality : null,
-    crime : null
+    //information gained from air quality and walkability
+    airQuality : null,//will contain an a quality indicator number
+    crime : null//contains the crime statistic for the county the current location is in. US only
 };
 
 //creating default lat lng coordinates so the script have something to work with initally. Default is Madison, WI
@@ -40,28 +40,40 @@ map.establish = function (){
       src1: [40.758896, -73.985130],
       src2: [40.758896, -73.989930]
     };
+    //create the map leaflet map object
     map.mymap = L.map('mapid', { zoomControl: false }).setView(latlons.map, 14);
+    //add credits for the basemap imagery to the leaflet map
     map.mymap.attributionControl.addAttribution("ÖPNV Daten © <a href='https://www.vbb.de/de/index.html' target='_blank'>VBB</a>");
     L.control.zoom({ position:'bottomleft' }).addTo(map.mymap);
-
+    //add a dark base map into the page
     r360.basemap({ style: 'dark', apikey: 'ERNGIFYE5NW4V6GCUTF614CGOI' }).addTo(map.mymap);
 
-    var sourceMarker1 = L.marker([map.lat, map.lng], { draggable: true }).addTo(map.mymap);
-    var sourceMarker2 = L.marker([map.lat, map.lng], { draggable: true }).addTo(map.mymap);
+    //creates two draggable markers which will be used to calculate the walkable area when the point is dragged
+    var sourceMarker1 = L.marker([map.lat, map.lng], { draggable: true })
+        .bindTooltip("Drag me to get walkable areas!")
+        .addTo(map.mymap);
+    var sourceMarker2 = L.marker([map.lat, map.lng], { draggable: true })
+        .bindTooltip("Drag me to get walkable areas!")
+        .addTo(map.mymap);
     
+    //a group layer from the Route 360 library. Layer will contain polygons with walk distance rings
     var polygonLayer = r360.leafletPolygonLayer().addTo(map.mymap);
     polygonLayer.opacity = .6;
     polygonLayer.setColors([{
+        //isochrone area for 2 minute walk time
       'time': 300,
       'color': '#c6dbef'
     }, {
+        //isochrone area for 7 minute walk time
       'time': 600,
       'color': '#6baed6'
     }, {
+        //isochrone area for 15 minute walktime
       'time': 900,
       'color': '#08306b'
     }, ]);
 
+    //helper function that enters polygon information into the group layer and symbolizes it
     var showPolygons = function(rezoom) {
       var travelOptions = r360.travelOptions();
       travelOptions.addSource(sourceMarker1);
@@ -94,8 +106,9 @@ map.establish = function (){
 
     });
     
+    //this is a codecoding widget from a leaflet plugin
     L.Control.geocoder({
-        defaultMarkGeocode: false,
+        defaultMarkGeocode: false,//do not show a marker when the geocoder is click on
         showResultIcons: false,
         placeholder: "Name of Place or Street Address",
         collapsed: false,
@@ -124,7 +137,7 @@ map.establish = function (){
         .addTo(map.mymap);
     
     map.mymap.on('contextmenu', function(e) {
-    console.log(e.latlng.lat + ", " + e.latlng.lng)
+        console.log(e.latlng.lat + ", " + e.latlng.lng)
         lat = Number(e.latlng.lat); 
         lng = Number(e.latlng.lng);
             
@@ -147,12 +160,14 @@ map.establish = function (){
 map.modal = function (){
     var modalWindow = d3.select("#modal-window").classed("hidden" , false);
 
+    //update the info and hide modal window if the user clicks yes
     d3.select("#yesButton").on("click" , function(){
         console.log("Yes has been selected");
         modalWindow.classed("hidden" , true);
         map.locationChange();
     });
 
+    //hide modal window and do not update anything if the user clicks no
     d3.select("#noButton").on("click", function(){
         console.log("no has been selected");
         modalWindow.classed("hidden" , true);
@@ -162,9 +177,21 @@ map.modal = function (){
 map.locationChange = function (){
     console.log("making osm request");
 
-    //loading gif and loading text
+    //Enter in loading text. This includes a loading gif icon.
     d3.select("#searchHeader").html("<span>Processing your walkable area this may take a few minutes... </span><img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
     d3.select("#poiHeader").html("<span>Getting Points of interest in your area. This may take a few minutes...</span> <img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
+    
+    //fade the second map div container into existance. It is hidden untill the user selects a new location
+    d3.select("#map2")
+        .transition()
+        .duration(3000)
+        .style("opacity" , 1);
+    
+    //decrease the size of the first leaflet map to give space to the second map div on the same line.
+    d3.select("#mapid")
+        .transition()
+        .duration(3000)
+        .style("width" , "500px");
 
     $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
         console.log("recieved responce from OSM geocoder, see log below");

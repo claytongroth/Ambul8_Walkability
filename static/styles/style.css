@@ -19,11 +19,14 @@ button {
 /*rules for custom defined classes and id that are not modified programmatically*/
 #mapid { 
     height: 500px; 
-    width: 500px;
+    width: 1000px;
 }
 #mapid2 { 
     height: 500px; 
     width: 500px;
+}
+#map2 {
+    opacity: 0;
 }
 
 .panel {
@@ -31,9 +34,8 @@ button {
     border-radius: 25px;
     margin: 1%;
     padding: 1.75%;
-
-    
 }
+
 
 .graph {
     background-color : white;
@@ -43,7 +45,12 @@ button {
     width : 40px;
 }
 
-
+#yesButton, #noButton {
+    width : 75px;
+    margin : auto;
+    margin-top : 0.5%;
+    margin-bottom : 0.5%;
+}
 
 
 
@@ -67,20 +74,23 @@ This is an attempt to prevent javascript or d3 from haneling styling directly.
     display : none;
 }
 
+/*id for the modal window that shows up when the user makes a tenitive request for a new location*/
 #modal-window {
     position: fixed; /* Stay in place */
     z-index: 10000000; /* Sit on top */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(255,255,255,0.5); /* Black w/ opacity */
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     padding-top: 100px; /* Location of the box */
   }
 
+  /* id for the white box of the modal window */
 .modal-content {
     margin: auto;
     background-color: #fefefe;
     width: 80%;
-    border: 1px solid #888;
+    border: 2px solid #888;
     padding: 2%;
+    border-radius: 15px;
   }

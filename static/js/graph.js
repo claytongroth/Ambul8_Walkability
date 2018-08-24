@@ -4,7 +4,7 @@ to interact with and change the "How does your City Compare?" information box
 **/
 
 
-
+//the main object inside of the script that contains the functions and properties related to SVGs in the html document
 var graphs = {};
 
 //lists of values for all three data serises which will be used by d3 to drive construction of graphs
@@ -118,6 +118,7 @@ graphs.establish = function () {
 			.style("fill" , function(d){
 				return d.color;
 			})
+			//title was added for this disabled and visually imparied
 			.attr("title" , function(d){
 				return d.label;
 			});
@@ -135,6 +136,10 @@ graphs.establish = function () {
 				return d[selection.attribute];
 			})
 			.attr("x" , function(d, i) {
+				//label has to be placed in the middle of the bar which is different than the XY coordinates of the rectangle
+				//the rectangle's xy coordinate is on its upper left corner.
+				//half the bar padding and half the bar width need to be added to the coordinate to get it to the
+				//center
 				return (i * graphs.width / graphs.scoreList.length) + (graphs.paddingBetweenBars / 2) + (graphs.barWidth / 2);
 			})
 			.attr("y" , function(d){
@@ -158,6 +163,10 @@ graphs.establish = function () {
 				return d.label;
 			})
 			.attr("x" , function(d,i){
+				//label has to be placed in the middle of the bar which is different than the XY coordinates of the rectangle
+				//the rectangle's xy coordinate is on its upper left corner.
+				//half the bar padding and half the bar width need to be added to the coordinate to get it to the
+				//center
 				return (i * graphs.width / graphs.scoreList.length) + (graphs.barWidth / 2) + (graphs.paddingBetweenBars / 2);
 			})
 			.attr("y", graphs.xAxisHeight / 2);
@@ -183,10 +192,14 @@ graphs.establish = function () {
 
 
 //updates the graph to reflect changes in the dataset
+//argument is the id of the svg html element
 graphs.update = function (svgID) {
 	console.log("update graph function called");
 	var selection = null;
 
+	//the svg is not directly selected because the d3 selection objects list has objects with
+	//attributes and methods like scales and such that are needed for the rest of the code to work properly
+	//it needs those references
 	[graphs.svgWalk, graphs.svgAir, graphs.svgCrime].forEach(function(svgObj){
 		console.log("comparing " + svgObj.attr("id") + " with " + svgID );
 		if (svgObj.attr("id") === svgID) {
@@ -222,6 +235,7 @@ graphs.update = function (svgID) {
 			}
 		})
 		.attr("y" , function(d){
+			//depending on the api the result might have been null, in those cases return the minimum size of a bar graph
 			if (d[selection.attribute] === null) {
 				return graphs.height - 10;
 			} else {
@@ -229,6 +243,8 @@ graphs.update = function (svgID) {
 			}
 		})
 		.attr("title" , function(d){
+			//If the title of the area is null because of the geocoder then rather than have the title be undefined
+			//have it as N/A which looks a bit cleaner.
 			if (d.label === null) {
 				return "N/A";
 			} else {
