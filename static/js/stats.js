@@ -62,26 +62,51 @@ stats.update = function () {
 
     //loop through each of the different keys inside of the ammenities count object
     console.log("Starting to update amenities info");
-    keysArray = Object.keys(current.amenityCount);
+    var keysArray = Object.keys(current.amenityCount);
+    var arrayToReorder = [];
+    //make a list that is more like an array
+    keysArray.forEach(function(key){
+        arrayToReorder.push({ amenity : key, count :  current.amenityCount[key] });
+    });
+
+    function amenitySorter (a,b){
+        if (a.count > b.count) {
+            return -1;
+        }
+        if (a.count < b.count){
+            return 1;
+        }
+        if (a.count === b.count) {
+            return 0;
+        }
+    };
+
+    arrayToReorder = arrayToReorder.sort(amenitySorter);
+    console.log("amenities list that wil be placed into DOM");
+    console.log(arrayToReorder);
 
     //sometimes their are no amenities returned so the amenties count object has no keys. 
     if (keysArray.length > 0){
         console.log("At least one amenity in area");
         //select the unorder list containing ammenities
         d3.select("#amenitiesList")
-            .selectAll("li")
-            .data(keysArray)
+            .selectAll(".amenity-row")
+            .data(arrayToReorder)
             .enter()
-            .append("li")
-            .attr("class" , "statItem")
+            .append("tr")
+            .attr("class" , "amenity-row")
             .html(function(d){
-                return d.replace("_" , " ").replace("_" , " ") + ": " + current.amenityCount[d];
+                //replace all of the underscores with spaces in the name
+                var amenityName = d.amenity.replace("_" , " ").replace("_" , " ");
+                //place the data into the format of an html table row
+                var tableRowHTML = "<td>" + amenityName + "</td> <td>" + d.count + "</td>";
+                return tableRowHTML;
         });
     } else {
         //if their are no amenities in the area then let the user know any do not use a list of objects that does not exist to generate a list
         console.log("There are no amenities in this area");
         d3.select("#amenitiesList")
-            .append("li")
-            .html("This Area does not have any amenities...Sorry!");
+            .append("tr")
+            .html("<td>This Area does not have any amenities...Sorry!</td>");
     }
 };

@@ -90,17 +90,46 @@
                 <div class="col panel hidden">
                     <h3>Basic Statistics</h3>
                     <p>Your score for: <span id="locationString">street, address, city name, town name</span></p>
-                    <ul>
-                        <li>Total Walability Score: <span class="statItem" id="statTotalScore">XX</span> / 100</li>
-                        <li>Street Density: <span class="statItem" id="statStreetDensity">XX</span></li>
-                        <li>Node Density: <span class="statItem" id="statNodeDensity">XX</span></li>
-                        <li>Street Segments Count: <span class="statItem" id="statSegCount"></span></li>
-					   <li>Crime Score: <span class="statItem" id="statCrime">XX</span> / 100</li>
-                    </ul>
-                    
+                    <table>
+                        <tr> 
+                            <th>statistic</th>
+                            <th>Value</th>
+                            <th>Explanation</th>
+                        </tr>
+                        <tr>
+                            <td>Total Walability Score:</td>
+                            <td><span class="statItem" id="statTotalScore">XX</span> / 100 </td>
+                            <td>Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Street Density: </td>
+                            <td><span class="statItem" id="statStreetDensity">XX</span></td>
+                            <td>Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Node Density:</td>
+                            <td><span class="statItem" id="statNodeDensity">XX</span></td>
+                            <td>Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Street Segments Count: </td>
+                            <td><span class="statItem" id="statSegCount">XX</span></td>
+                            <td>Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                        <tr>
+                            <td>Crime Score:</td>
+                            <td><span class="statItem" id="statCrime">XX</span> / 100</td>
+                            <td>Explaination of some kind.fdsfdsfsdfds</td>
+                        </tr>
+                    </table>
+                    <br/>
                     <h3>Amenities</h3>
-                    <ul id="amenitiesList">
-                    </ul>
+                    <table id="amenitiesList">
+                        <tr>
+                            <th>Type</th>
+                            <th>Count</th>
+                        </tr>
+                    </table>
                     
                     
                 </div><!--end of the first column containing the basitic statistics -->
@@ -139,10 +168,6 @@ flasks prerendering takes are of this by transforming the following line into a 
     
 <!-- The main loop is in this module, it calls methods from the previous three mods -->
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
-    
-<script type="application/json" src="{{ url_for('static', filename='js/crime.json') }}"></script>
-
-<script type="text/javascript" src="{{ url_for('static', filename='js/crime.js') }}"></script>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/leaflet.awesome-markers.js') }}"></script>
 

@@ -52,15 +52,26 @@ button {
     margin-bottom : 0.5%;
 }
 
+table {
+    border-collapse: collapse;
+    margin : auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-transform : capitalize;
+    text-align: center;
+}
+
+th , td {
+    padding-left : 25px;
+    padding-right : 25px;
+    padding-top : 5px;
+    padding-bottom : 5px;
+}
 
 
 /**All style rules after this point are for classes that will be applied programmatically through javascript **/
-
-
-/*capitalizes the ammenities item labels*/
-.statItem {
-    text-transform : capitalize;
-}
 
 /**These classes will be dynamically applied to text in the walkability score selection to properly color code them.
 This is an attempt to prevent javascript or d3 from haneling styling directly.
@@ -68,6 +79,9 @@ This is an attempt to prevent javascript or d3 from haneling styling directly.
 .leaflet-container.crosshair-cursor-enabled {
     cursor:crosshair;
 }
+
+
+
 
 /*styles of items that will appear when the user asks for more information*/
 .hidden {

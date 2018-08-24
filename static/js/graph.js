@@ -15,9 +15,9 @@ graphs.scoreList = [
 ];
 
 //the height and width for each svg object
-graphs.width = 500;
-graphs.height = 200;
-graphs.paddingBetweenBars = 35;
+graphs.width = 300;
+graphs.height = 110;
+graphs.paddingBetweenBars = 20;
 
 //based on the inputs figure out the bar widths (factor in the padding between bars)
 graphs.barWidth = (graphs.width / graphs.scoreList.length) - graphs.paddingBetweenBars;
@@ -25,13 +25,17 @@ graphs.paddingBarLabel = 5;
 
 //set padding amounts for each of the different directions
 graphs.paddingTop = 50;
-graphs.paddingBottom = 50;
-graphs.paddingLeft = 50;
-graphs.paddingRight = 25;
+graphs.paddingBottom = 10;
+graphs.paddingLeft = 15;
+graphs.paddingRight = 15;
 
 //axis x and y spaces next to the interior of the graph
 graphs.xAxisHeight = 25;
 graphs.yAxisWidth = 25;
+
+//set the font size for all font inside of the svg
+graphs.fontSize = 10;
+graphs.fontSizeGraphTitle = 12;
 
 //create the svg elements and needed attributes
 graphs.establish = function () {
@@ -131,6 +135,7 @@ graphs.establish = function () {
 			.append("text")
 			.attr("class" , "bar-number-value-label")
 			.style("fill" , "black")
+			.style("font-size" , graphs.fontSize + "px")
 			.attr("text-anchor" , "middle")
 			.text(function(d){
 				return d[selection.attribute];
@@ -155,6 +160,7 @@ graphs.establish = function () {
 			.enter()
 			.append("text")
 			.style("fill" , "black")
+			.style("font-size" , graphs.fontSize + "px")
 			.attr("text-anchor" , "middle")
 			.attr("class" , function(d){
 				return "bar-catagory-label " + d.barType;
@@ -177,7 +183,8 @@ graphs.establish = function () {
 			.text(selection.graphTitle)
 			.attr("y" , graphs.paddingTop / 2)
 			.attr("x" , totalWidth / 2 )
-			.attr("text-anchor" , "middle");
+			.attr("text-anchor" , "middle")
+			.style("font-size" , graphs.fontSizeGraphTitle + "px");
 
 		//include an axis label to left of the graph
 		yAxisGroup.append("text")
@@ -185,7 +192,8 @@ graphs.establish = function () {
 			.text(selection.graphTitle)
 			.attr("x" , -(graphs.height /  2) )
 			.attr("y" , graphs.yAxisWidth / 2 )
-			.attr("transform" , "rotate(-90)");
+			.attr("transform" , "rotate(-90)")
+			.style("font-size" , graphs.fontSize + "px");
 
 	});
 };
