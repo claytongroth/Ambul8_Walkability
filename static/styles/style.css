@@ -2,7 +2,7 @@
 body {
     margin: 1.5%;/**puts a very simple spacing around the edges of the page. **/
 }
-h1, h3, footer, p {
+h1, h3, h4, footer, p {
     text-align: center;
 }
 ul {
@@ -66,3 +66,21 @@ This is an attempt to prevent javascript or d3 from haneling styling directly.
 .hidden {
     display : none;
 }
+
+#modal-window {
+    position: fixed; /* Stay in place */
+    z-index: 10000000; /* Sit on top */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    padding-top: 100px; /* Location of the box */
+  }
+
+.modal-content {
+    margin: auto;
+    background-color: #fefefe;
+    width: 80%;
+    border: 1px solid #888;
+    padding: 2%;
+  }

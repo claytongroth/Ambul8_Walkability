@@ -118,7 +118,7 @@ map.establish = function (){
             showPolygons(true);
 
             //make change to the whole interface
-            map.locationChange();
+            map.modal();
             map2.zoomTo(lat, lng);
         })
         .addTo(map.mymap);
@@ -131,11 +131,33 @@ map.establish = function (){
         sourceMarker1.setLatLng([lat, lng]);
         sourceMarker2.setLatLng([lat, lng]);
         
-        map.locationChange();
+        map.modal();
         map2.zoomTo(lat, lng);
+    });
+
+    //bind allows the user the select a location by clicking on it!
+    map.mymap.on("click" , function(){
+        map.modal();
     });
 }
 
+
+//shows a modal window which asks the user if they would like to confirm
+//they would like to select that particular location.
+map.modal = function (){
+    var modalWindow = d3.select("#modal-window").classed("hidden" , false);
+
+    d3.select("#yesButton").on("click" , function(){
+        console.log("Yes has been selected");
+        modalWindow.classed("hidden" , true);
+        map.locationChange();
+    });
+
+    d3.select("#noButton").on("click", function(){
+        console.log("no has been selected");
+        modalWindow.classed("hidden" , true);
+    });
+};
             
 map.locationChange = function (){
     console.log("making osm request");
