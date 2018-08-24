@@ -12,5 +12,10 @@ window.onload = function () {
     map2.establish();
     stats.establish();
     graphs.establish();
-    
-}
+
+    d3.select("#moreInfoButton").on("click" , function(){
+        console.log("showing more detailed information DIVs");
+        d3.selectAll(".panel , #bottom-row")
+            .classed("hidden" , false);
+    })
+};

@@ -8,7 +8,10 @@ h1, h3, footer, p {
 ul {
     list-style-type: none;
 }
-
+button {
+    margin : 1%;
+    text-align:center;
+}
 
 
 
@@ -28,12 +31,17 @@ ul {
     border-radius: 25px;
     margin: 1%;
     padding: 1.75%;
+
+    
 }
 
 .graph {
     background-color : white;
 }
 
+#loadingGIF{
+    width : 40px;
+}
 
 
 
@@ -41,18 +49,6 @@ ul {
 
 /**All style rules after this point are for classes that will be applied programmatically through javascript **/
 
-
-
-/**color based classes that will be applied to the bar graphs **/
-.urban {
-	fill : blue;
-}
-.rural {
-	fill : black;
-}
-.choosen {
-	fill : orange;
-}
 
 /*capitalizes the ammenities item labels*/
 .statItem {
@@ -62,15 +58,11 @@ ul {
 /**These classes will be dynamically applied to text in the walkability score selection to properly color code them.
 This is an attempt to prevent javascript or d3 from haneling styling directly.
 **/
-.scoreGood {
-	color : green;
-}
-.scoreBad {
-	color : red;
-}
-.scoreNeural {
-	color : black;
-}
 .leaflet-container.crosshair-cursor-enabled {
     cursor:crosshair;
+}
+
+/*styles of items that will appear when the user asks for more information*/
+.hidden {
+    display : none;
 }

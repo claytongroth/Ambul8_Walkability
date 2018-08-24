@@ -139,6 +139,11 @@ map.establish = function (){
             
 map.locationChange = function (){
     console.log("making osm request");
+
+    //loading gif and loading text
+    d3.select("#searchHeader").html("<span>Processing your walkable area this may take a few minutes... </span><img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
+    d3.select("#poiHeader").html("<span>Getting Points of interest in your area. This may take a few minutes...</span> <img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
+
     $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
         console.log("recieved responce from OSM geocoder, see log below");
         console.log(response);
@@ -179,8 +184,10 @@ map.zoomTo = function () {
 
 //updates the map with new information provided from the backend server
 map.update = function () {
-    console.log("update map has been called");
 
+    console.log("update map has been called");
+    d3.select("#searchHeader").html("This is the walkable area of your community!");
+    d3.select("#poiHeader").html("Places to go in your neighborhood!");
 
     if (typeof isochroneLayer !== 'undefined') {
         map.mymap.removeLayer(isochroneLayer);
@@ -212,9 +219,11 @@ map.update = function () {
     
     var group = L.featureGroup(markerGroup);
     map.mymap.fitBounds(group.getBounds()); 
-     
+
     map2.update();
     
+    //after the update has been completed the statistics view button appears
+    d3.select("#moreInfoButton").attr("class" , "");
 };
 
 

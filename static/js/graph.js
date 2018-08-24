@@ -200,6 +200,8 @@ graphs.update = function (svgID) {
 	//update the walkability score info
 	graphs.scoreList[0].walk = current.WS;
 	graphs.scoreList[0].label = current.city;
+	graphs.scoreList[0].air = current.airQuality;
+	graphs.scoreList[0].crime = current.crime;
 
 	console.log("This is the list that is going to be acted on");
 	console.log(graphs.scoreList);
@@ -212,13 +214,26 @@ graphs.update = function (svgID) {
 	selection.selectAll(".bar")
 		.transition()
 		.attr("height" , function(d){
-			return selection.scale(d[selection.attribute]);
+			//depending on the api the result might have been null, in those cases return the minimum size of a bar graph
+			if (d[selection.attribute] === null) {
+				return 10;
+			} else {
+				return selection.scale(d[selection.attribute]);
+			}
 		})
 		.attr("y" , function(d){
-			return graphs.height - selection.scale(d[selection.attribute]);
+			if (d[selection.attribute] === null) {
+				return graphs.height - 10;
+			} else {
+				return graphs.height - selection.scale(d[selection.attribute]);
+			}
 		})
 		.attr("title" , function(d){
-			return d.label;
+			if (d.label === null) {
+				return "N/A";
+			} else {
+				return d.label;
+			}
 		});
 
 	
@@ -226,7 +241,11 @@ graphs.update = function (svgID) {
 	selection.select(".bar-number-value-label")
 		.transition()
 		.text(function(d){
-			return d[selection.attribute];
+			if (d[selection.attribute] === null) {
+				return "N/A";
+			} else {
+				return Math.round(d[selection.attribute]);
+			}
 		})
 		.attr("y" , function(d){
 			return graphs.height - selection.scale(d[selection.attribute]);
@@ -237,7 +256,12 @@ graphs.update = function (svgID) {
 	selection.selectAll(".bar-catagory-label")
 		.transition()
 		.text(function(d){
-			return d.label;
+			if (d.label === null){
+				return "N/A";
+			} else {
+				return d.label;
+			}
+			
 		});
 
 };

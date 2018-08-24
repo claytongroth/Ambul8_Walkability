@@ -19,7 +19,7 @@ getData.airQuality = function () {
     console.log("requesting air quality data for: " + url);
     $.getJSON(url, function(response){
         console.log("See air quality data below");
-        
+        console.log(response);
         //extracting the air quality score
         if (response.hasOwnProperty("data")){
             current.airQuality = response.data.aqi;
