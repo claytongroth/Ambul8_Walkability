@@ -186,12 +186,7 @@ map.locationChange = function (){
         .transition()
         .duration(8000)
         .style("opacity" , 1);
-    
-    //decrease the size of the first leaflet map to give space to the second map div on the same line.
-    d3.select("#mapid")
-        .transition()
-        .duration(2000)
-        .style("width" , "500px");
+
 
     $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
         console.log("recieved responce from OSM geocoder, see log below");

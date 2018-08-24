@@ -19,7 +19,7 @@ button {
 /*rules for custom defined classes and id that are not modified programmatically*/
 #mapid { 
     height: 500px; 
-    width: 1000px;
+    width: 500px;
 }
 #mapid2 { 
     height: 500px; 
@@ -52,6 +52,9 @@ button {
     margin-bottom : 0.5%;
 }
 
+
+
+/*Style stuff dealing with the tables for both the basic stats and amenities*/
 table {
     border-collapse: collapse;
     margin : auto;
@@ -68,6 +71,15 @@ th , td {
     padding-right : 25px;
     padding-top : 5px;
     padding-bottom : 5px;
+    font-size: 13px;
+}
+
+th {
+    background-color : rgb(200,200,200);
+}
+/*table data cell that contains an lengthy explainiation of the stats*/
+.Explanation {
+    text-align: left;
 }
 
 

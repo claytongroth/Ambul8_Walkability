@@ -9,9 +9,9 @@ var graphs = {};
 
 //lists of values for all three data serises which will be used by d3 to drive construction of graphs
 graphs.scoreList = [
-    {walk : 45 , crime : 50, air : 50, barType : "choice", label : "Your Chooice, MA", color : "red"},//record that the end user choose, by default it is Madison WI
-    {walk : 2 , crime : 10, air : 1, barType : "rural", label : "Norware, NS", color : "blue"},//record for rural example to compare with
-    {walk : 95 , crime : 100, air : 75, barType : "urban", label : "New York, NY", color : "green"}//record for every urban good area to walk in
+    {walk : 45 , crime : 50, air : 50, barType : "choice", label : "Your Chooice, MA", color : "#6baed6"},//record that the end user choose, by default it is Madison WI
+    {walk : 5 , crime : 356, air : 74, barType : "rural", label : "Union Chapel, AR", color : "rgb(200,200,200)"},//record for rural example to compare with
+    {walk : 100 , crime : 634, air : 49, barType : "urban", label : "New York, NY", color : "rgb(200,200,200)"}//record for every urban good area to walk in
 ];
 
 //the height and width for each svg object
@@ -52,9 +52,9 @@ graphs.establish = function () {
 	graphs.svgCrime.attribute = "crime";
 
 	//include information that will be used to title the graph
-	graphs.svgWalk.graphTitle = "Walkability Score";
-	graphs.svgAir.graphTitle = "Air Quality Score";
-	graphs.svgCrime.graphTitle = "Crime Rate";
+	graphs.svgWalk.graphTitle = "Walkability Score (Higher Better)";
+	graphs.svgAir.graphTitle = "Air Quality Score (Lower Better)";
+	graphs.svgCrime.graphTitle = "Crime Rate (Lower Better)";
 
 	//loop through each of the differnt svg selectors
 	[graphs.svgWalk, graphs.svgAir, graphs.svgCrime].forEach(function(selection){
@@ -82,7 +82,9 @@ graphs.establish = function () {
 			.attr("y" , 0)
 			.attr("height" , totalHeight)
 			.attr("width" , totalWidth)
-			.style("fill" , "white");
+			.style("fill" , "white")
+			.style("stroke" , "rgb(0,0,0)")
+			.style("stroke-width" , 1);
 		
 		console.log("Setting up SVG groups");
 		//append a chart interior so the padding actually has an affect
@@ -148,7 +150,7 @@ graphs.establish = function () {
 				return (i * graphs.width / graphs.scoreList.length) + (graphs.paddingBetweenBars / 2) + (graphs.barWidth / 2);
 			})
 			.attr("y" , function(d){
-				return graphs.height - selection.scale(d[selection.attribute]);
+				return graphs.height - selection.scale(d[selection.attribute] -5);
 			});
 		
 
@@ -190,7 +192,7 @@ graphs.establish = function () {
 		yAxisGroup.append("text")
 			.attr("class" , "axis-label")
 			.text(selection.graphTitle)
-			.attr("x" , -(graphs.height /  2) )
+			.attr("x" , -100 )
 			.attr("y" , graphs.yAxisWidth / 2 )
 			.attr("transform" , "rotate(-90)")
 			.style("font-size" , graphs.fontSize + "px");
@@ -209,7 +211,6 @@ graphs.update = function (svgID) {
 	//attributes and methods like scales and such that are needed for the rest of the code to work properly
 	//it needs those references
 	[graphs.svgWalk, graphs.svgAir, graphs.svgCrime].forEach(function(svgObj){
-		console.log("comparing " + svgObj.attr("id") + " with " + svgID );
 		if (svgObj.attr("id") === svgID) {
 			selection = svgObj;
 		}
@@ -224,6 +225,20 @@ graphs.update = function (svgID) {
 	graphs.scoreList[0].air = current.airQuality;
 	graphs.scoreList[0].crime = current.crime;
 
+	//construct a very short string for the label -
+	//depending on the area it might not be in a city so the value might be null
+	//it also might not even be located inside of a county
+	//the following if statements take care of each of these edge senarios.
+	if (current.city === null || current.city === undefined){
+		if (current.county === null || current.county === undefined){
+			graphs.scoreList[0].label = current.country;
+		} else {
+			graphs.scoreList[0].label = current.county;
+		}
+	} else {
+		graphs.scoreList[0].label = current.city;
+	}
+
 	console.log("This is the list that is going to be acted on");
 	console.log(graphs.scoreList);
 
@@ -236,7 +251,7 @@ graphs.update = function (svgID) {
 		.transition()
 		.attr("height" , function(d){
 			//depending on the api the result might have been null, in those cases return the minimum size of a bar graph
-			if (d[selection.attribute] === null) {
+			if (d[selection.attribute] === null || d[selection.attribute] === undefined) {
 				return 10;
 			} else {
 				return selection.scale(d[selection.attribute]);
@@ -244,7 +259,7 @@ graphs.update = function (svgID) {
 		})
 		.attr("y" , function(d){
 			//depending on the api the result might have been null, in those cases return the minimum size of a bar graph
-			if (d[selection.attribute] === null) {
+			if (d[selection.attribute] === null || d[selection.attribute] === undefined) {
 				return graphs.height - 10;
 			} else {
 				return graphs.height - selection.scale(d[selection.attribute]);
@@ -253,8 +268,8 @@ graphs.update = function (svgID) {
 		.attr("title" , function(d){
 			//If the title of the area is null because of the geocoder then rather than have the title be undefined
 			//have it as N/A which looks a bit cleaner.
-			if (d.label === null) {
-				return "N/A";
+			if (d.label === null || d[selection.attribute] === undefined) {
+				return "No Data";
 			} else {
 				return d.label;
 			}
@@ -262,26 +277,31 @@ graphs.update = function (svgID) {
 
 	
 	//change the number labels
-	selection.select(".bar-number-value-label")
+	selection.selectAll(".bar-number-value-label")
 		.transition()
 		.text(function(d){
-			if (d[selection.attribute] === null) {
-				return "N/A";
+			if (d[selection.attribute] === null || d[selection.attribute] === undefined) {
+				return "No Data";
 			} else {
 				return Math.round(d[selection.attribute]);
 			}
 		})
 		.attr("y" , function(d){
-			return graphs.height - selection.scale(d[selection.attribute]);
-		})
+			//depending on the api the result might have been null, in those cases return the minimum size of a bar graph
+			if (d[selection.attribute] === null || d[selection.attribute] === undefined) {
+				return graphs.height - 10;
+			} else {
+				return graphs.height - selection.scale(d[selection.attribute]);
+			}
+		});
 
 
 	//change the bar labels below graph
 	selection.selectAll(".bar-catagory-label")
 		.transition()
 		.text(function(d){
-			if (d.label === null){
-				return "N/A";
+			if (d.label === null || d.label === undefined){
+				return "No Data";
 			} else {
 				return d.label;
 			}

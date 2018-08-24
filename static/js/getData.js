@@ -25,7 +25,7 @@ getData.airQuality = function () {
         //sometimes the air quality api does not find a station that it considers near the lat long coordinate pair
         //in those cases it returns null or the data object might not even be a property of the response.
         //the if statements below prevent the script from crashing when the attribute does not exist
-        if (response.hasOwnProperty("data")){
+        if (!(response.data === "undefined" || response.data === null) ){
             current.airQuality = response.data.aqi;
             console.log(current.airQuality);
         } else {
