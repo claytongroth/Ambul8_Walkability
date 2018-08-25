@@ -54,7 +54,7 @@ stats.update = function () {
     console.log("stats update function called");
 
     //update the core statistics
-    d3.select("#statTotalScore").html(current.WS);
+    d3.selectAll(".walkscore-stat").html(current.WS);
     //stats from the JSON stats thing
     d3.select("#statStreetDensity").html(
         Math.round(current.statsJson.street_density_km)

@@ -104,7 +104,7 @@ svg {
     margin :auto;
 }
 
-.leaflet-control-geocoder, .leaflet-control-geocoder-form-no-error {
+.leaflet-control-geocoder {
 display : inline;
 }
 

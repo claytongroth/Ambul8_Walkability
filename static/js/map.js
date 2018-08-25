@@ -132,8 +132,9 @@ map.establish = function (){
             showPolygons(true);
 
             //make change to the whole interface
-            map.modal();
             map2.zoomTo(lat, lng);
+            //update the walkscore request address
+            map.updateAddressForWalkscoreRequest();
         })
         .addTo(map.mymap);
     
@@ -145,13 +146,15 @@ map.establish = function (){
         sourceMarker1.setLatLng([lat, lng]);
         sourceMarker2.setLatLng([lat, lng]);
         
-        map.modal();
         map2.zoomTo(lat, lng);
+        //update the walkscore request address
+        map.updateAddressForWalkscoreRequest();
     });
 
     //bind allows the user the select a location by clicking on it!
     map.mymap.on("click" , function(){
-        map.modal();
+        //update the walkscore request address
+        map.updateAddressForWalkscoreRequest();
     });
 
     //make a legend control inside of the map
@@ -203,6 +206,49 @@ map.modal = function (){
         modalWindow.classed("hidden" , true);
     });
 };
+
+map.updateAddressForWalkscoreRequest = function(){
+    $.getJSON("https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=" + lat + "&lon=" + lng, function(response){
+        console.log("got a result from the geocoder. see result below");
+        console.log(response);
+        //construct string for road
+        if (response.address.road === null || response.address.road === undefined){
+            var road = "";
+        } else {
+            var road = response.address.road + ", ";
+        };
+        //construct string for city
+        if (response.address.city === null || response.address.city === undefined) {
+            var city = "";
+        } else {
+            var city = response.address.city + ", ";
+        }
+        //construct string for state
+        if (response.address.state === null || response.address.state === undefined) {
+            var state = "";
+        } else {
+            var state = response.address.state + ", ";
+        }
+        //construct sring for county
+        if (response.address.county === null || response.address.county === undefined){
+            var county = "";
+        } else {
+            var county = response.address.county + ", ";
+        }
+        //construct string country
+        if (response.address.country === null || response.address.country === undefined) {
+            var country = "";
+        } else {
+            var country = response.address.country;
+        }
+        
+        //put everything together into a master string 
+        var addressString = road + city + county + state + country;
+
+        //place the string into the interface
+        d3.select("#locationString").text(addressString);
+    })
+}
             
 map.locationChange = function (){
     console.log("making osm request");
