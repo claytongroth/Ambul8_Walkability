@@ -55,7 +55,7 @@
     <div id="modal-window" class="hidden">
         <div class="modal-content">
             <h4>Hi There bud!</h4>
-            <p>Just wanted to make sure you want to get info on this area! Are you sure?</p>
+            <p>Just wanted to make sure you want to calculate info on this area! Are you sure?</p>
             <button id="yesButton">Yes</button>
             <button id="noButton">No</button>
         </div>
@@ -72,7 +72,14 @@
 			         <div id="map" class="col panel justify-content-center">
 						<h3 id="searchHeader">Search For An Area to Analyze Walkability for</h3>
                          <div id="mapid"></div>
-
+                            <div id="submap">Walk Score: 
+                                 <td><b><span class="statItem" id="statTotalScore">XX</span> / 100</b> for: </td>
+                                
+                                
+                                <span id="locationString">street, address, city name, town name</span>
+                                
+                                <button id="submapbutton"onclick="map.modal()">Get Walk Score</button>
+                            </div>
 				     </div>
 
 					<div id="map2" class="col panel justify-content-center">
@@ -99,22 +106,22 @@
                         <tr>
                             <td>Total Walkability Score:</td>
                             <td><span class="statItem" id="statTotalScore">XX</span> / 100 </td>
-                            <td class="Explanation">This is a derived from a varity of different factors but mostly from path network characteristics. It generally ranges from 0 to 100.</td>
+                            <td class="Explanation">Walkability score is calculated based on the below street network metrics as well as the density of amenities in an area. Scores range from 0 to 100.</td>
                         </tr>
                         <tr>
                             <td>Street Density: </td>
                             <td><span class="statItem" id="statStreetDensity">XX</span></td>
-                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                            <td class="Explanation">The Street Denstiy metric indicates what surface area within the area of consideration is coveered by walkable surfaces. The higher this metric, the the more walkable an area will be. New York City, for example, in places, has a value over 50,000,000.</td>
                         </tr>
                         <tr>
                             <td>Node Density:</td>
                             <td><span class="statItem" id="statNodeDensity">XX</span></td>
-                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                            <td class="Explanation">The Node Density metric tells us how many nodes (intersections or ends of streets) are in the area of consideration. The more nodes there are, typically the more walkable an area is. A high value is near 800,000.</td>
                         </tr>
                         <tr>
                             <td>Street Segments Count: </td>
                             <td><span class="statItem" id="statSegCount">XX</span></td>
-                            <td class="Explanation">Explaination of some kind.fdsfdsfsdfds</td>
+                            <td class="Explanation">Street Segment Count is another valuable correlary for walkability. The more sections of walkable terrain there are the higher the score. A high value is near 1000.</td>
                         </tr>
                         <tr>
                             <td>Crime Rate Per 100000:</td>

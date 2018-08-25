@@ -112,6 +112,7 @@ map.establish = function (){
         showResultIcons: false,
         placeholder: "Name of Place or Street Address",
         collapsed: false,
+        suggestMinLength : 1000,
         errorMessage: "We can seem to find that address. Can you try a different one?"
         
         })
@@ -268,12 +269,12 @@ map.update = function () {
    
     isoStyle = function (feature){
         var geojsonMarkerOptions = {
-            radius: 3,
+            radius: 4,
             fillColor: feature.properties.html.substring(1109,1116),
             color: feature.properties.html.substring(1109,1116),
             weight: 1,
-            opacity: 0.5,
-            fillOpacity: 0.5
+            opacity: 0.7,
+            fillOpacity: 0.7
             //1109 - 1115
         };
         return geojsonMarkerOptions;

@@ -45,6 +45,32 @@ footer {
 #map2 {
     opacity: 0;
 }
+#submap{
+    background-color: rgba(0,0,0,0.9);
+    color: #A9A9A9;
+    margin: auto;
+    border-radius: 10px;
+    border: 2px solid black;
+    padding-top: 20px;
+    margin-top: 10px;
+}
+#submap b{
+    color:#ffbd00;
+}
+#submapbutton {
+    background: #ffbd00;
+    color: black;
+    text-align: right;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+#submapbutton:hover {
+    background: #fc7f00;
+    color: black;
+    text-align: right;
+    border: 2px solid #e4ff7a;
+    border-radius: 10px;
+}
 svg {
     margin :auto;
 }
@@ -68,6 +94,10 @@ svg {
     width : 85px;
     height : 80px;
     margin :auto;
+}
+
+.leaflet-control-geocoder, .leaflet-control-geocoder-form-no-error {
+display : inline;
 }
 
 .panel {
