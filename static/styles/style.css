@@ -45,30 +45,38 @@ footer {
 #map2 {
     opacity: 0;
 }
+#centerbutton {
+    padding-bottom: 5px;
+}
 #submap{
     background-color: rgba(0,0,0,0.9);
     color: #A9A9A9;
     margin: auto;
     border-radius: 10px;
     border: 2px solid black;
-    padding-top: 20px;
-    margin-top: 10px;
+    padding-top: 2px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    margin-top: 2px;
 }
 #submap b{
-    color:#ffbd00;
+    color:#c6dbef;
+    border: 2px solid #6baed6;
+    border-radius: 5px;
+    padding: 2px;
 }
 #submapbutton {
-    background: #ffbd00;
+    background: #6baed6;
     color: black;
     text-align: right;
     border: 2px solid black;
     border-radius: 10px;
 }
 #submapbutton:hover {
-    background: #fc7f00;
+    background: #c6dbef;
     color: black;
     text-align: right;
-    border: 2px solid #e4ff7a;
+    border: 2px solid #08306b;
     border-radius: 10px;
 }
 svg {
