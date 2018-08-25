@@ -35,7 +35,7 @@ stats.updateAddress = function(){
     
     //construct the final label that will be used in the basic stats box which includes the full address
     var addressString = road + city + current.county + ", " + current.country;
-    d3.select("#locationString").html(addressString);
+    d3.selectAll(".addressString").html(addressString);
 }
 
 //updates the crime info when the info is returned by getter function
@@ -51,6 +51,7 @@ stats.updateCrime = function () {
 
 //updates the map with new information provided from the backend server
 stats.update = function () {
+    stats.updateAddress();
     console.log("stats update function called");
 
     //update the core statistics
