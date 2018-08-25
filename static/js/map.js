@@ -247,6 +247,7 @@ map.updateAddressForWalkscoreRequest = function(){
 
         //place the string into the interface
         d3.select("#locationString").text(addressString);
+        d3.select("#scoreRequested").text("XX");
     })
 }
             
