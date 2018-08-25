@@ -85,7 +85,7 @@ getData.walkability = function () {
         current.WS = data.WS;
         current.amenityCount = data.amenityCount;
         current.amenityGJ = data.amenityGJ;
-        current.point = data.amenityGJ;
+        current.point = data.point;
         current.statsJson = data.statsJson;
 
         //change the interface to reflect the new data

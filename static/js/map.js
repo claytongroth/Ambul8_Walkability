@@ -58,7 +58,7 @@ map.establish = function (){
     
     //a group layer from the Route 360 library. Layer will contain polygons with walk distance rings
     var polygonLayer = r360.leafletPolygonLayer().addTo(map.mymap);
-    polygonLayer.opacity = .6;
+    polygonLayer.opacity = .3;
     polygonLayer.setColors([{
         //isochrone area for 2 minute walk time
       'time': 300,

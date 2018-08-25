@@ -33,7 +33,17 @@ map2.zoomTo = function (lat, lng) {
 //updates the map with new information provided from the backend server
 map2.update = function () {
     console.log("update map2 has been called");
+    var LeafIcon = L.AwesomeMarkers.icon({
+                icon: 'circle',
+                markerColor: 'red',
+                prefix: 'fa'
 
+    });
+    L.marker(current.point, {
+                icon: LeafIcon
+                    })
+            .addTo(map2.mymap);
+    
     if (typeof poiLayer !== 'undefined') {
         map2.mymap.removeLayer(poiLayer);
     };

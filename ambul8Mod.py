@@ -40,7 +40,7 @@ def generateIsochrone(point):
     for u, v, k, data in G.edges(data=True, keys=True):
         data['time'] = data['length'] / meters_per_minute
 
-    iso_colors = ox.get_colors(n=len(trip_times), cmap='Wistia', start=0.3, return_hex=True)
+    iso_colors = ox.get_colors(n=len(trip_times), cmap='YlOrRd_r', start=0.3, return_hex=True)
 
     # color the nodes
     node_colors = {}
