@@ -11,8 +11,23 @@ ul {
 button {
     margin : 1%;
     text-align:center;
+    font-size: 12px;
 }
-
+p {
+    font-size : 12px;
+}
+h1 {
+    font-size: 26px;
+}
+h3 {
+    font-size: 20px;
+}
+h4{
+    font-size : 17px;
+}
+footer {
+    font-size : 10px;
+}
 
 
 
@@ -92,7 +107,7 @@ th , td {
     padding-right : 25px;
     padding-top : 5px;
     padding-bottom : 5px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 th {
