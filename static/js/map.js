@@ -152,6 +152,35 @@ map.establish = function (){
     map.mymap.on("click" , function(){
         map.modal();
     });
+
+    //make a legend control inside of the map
+    var legendControl = L.control({ position : "bottomright"});
+    legendControl.onAdd = function(map){
+        this._div = L.DomUtil.create('div', 'legend'); // create a div with a class "legend"
+
+        this.update();
+        return this._div;
+    };
+    legendControl.update = function (props) {
+        this._div.title = "Legend of Features in map";
+
+        //defining the circles in the svg
+        var smallestCircle = "<circle cx='50' cy='40' r='15' fill='#c6dbef'> </circle>";
+        var mediumCircle = "<circle cx='50' cy='48' r='28' fill='#6baed6'> </circle>";
+        var largeCircle = "<circle cx='50' cy='55' r='38' fill='#08306b'> </circle>";
+
+        //define the text labels for each of the differnt circles
+        var innerText = "<text font-size='9px' text-anchor='middle' x='50' y='40'>2 min</text>";
+        var middleText = "<text font-size='9px' text-anchor='middle' x='50' y='65' >7 min</text>";
+        var outerText = "<text font-size='9px' text-anchor='middle' x='50' y='88' fill='white'>15 min</text>";
+
+        //combine the entire string together into an legend with an svg in it
+        this._div.innerHTML = "<h4 class='legend-header'>Legend</h4> <svg id='legend-svg'><g transform='translate(-8, -15)'>" +
+            largeCircle +  mediumCircle + smallestCircle + innerText + middleText + outerText + "</g> </svg>";
+
+    };
+
+    legendControl.addTo(map.mymap);
 }
 
 
