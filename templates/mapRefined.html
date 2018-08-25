@@ -68,26 +68,26 @@
         <div class="container">
             
             <!--first row of content starts here -->
-            <div class="row">
-			         <div id="map" class="col panel">
+            <div class="row justify-content-center">
+			         <div id="map" class="col panel justify-content-center">
 						<h3 id="searchHeader">Search For An Area to Analyze Walkability for</h3>
                          <div id="mapid"></div>
 
 				     </div>
 
-					<div id="map2" class="col panel">
+					<div id="map2" class="col panel justify-content-center">
 						<h3 id="poiHeader">Select a location on the map to the left</h3>
                         <!--<img id="isochrone" />-->
                         <div id="mapid2"></div>
-                        <button class="hidden" id="moreInfoButton">Click here for Statistics and city comparisons</button>
+                        <button class="hidden" id="moreInfoButton">Click here for detailed stats</button>
 					</div><!--end of column that contains the isochrone -->
             </div><!--end of first row which contains the isochrone and map -->
             
             
             
             <!--Second row of content starts here -->
-            <div id="bottom-row" class="row hidden">
-                <div class="col panel hidden">
+            <div id="bottom-row" class="row hidden justify-content-center">
+                <div class="col panel hidden justify-content-center">
                     <h3>Basic Statistics</h3>
                     <p>Your score for: <span id="locationString">street, address, city name, town name</span></p>
                     <table>
@@ -97,7 +97,7 @@
                             <th>Explanation</th>
                         </tr>
                         <tr>
-                            <td>Total Walability Score:</td>
+                            <td>Total Walkability Score:</td>
                             <td><span class="statItem" id="statTotalScore">XX</span> / 100 </td>
                             <td class="Explanation">This is a derived from a varity of different factors but mostly from path network characteristics. It generally ranges from 0 to 100.</td>
                         </tr>
@@ -137,7 +137,7 @@
                     
                 </div><!--end of the first column containing the basitic statistics -->
                 
-                <div class="col panel hidden">
+                <div class="col panel hidden justify-content-center">
                     <h3>How Does Your City Compare?</h3>
 				    <svg class="graph" id="graphWalkScore"></svg>
 				    <svg class="graph" id="graphSafetyScore"></svg>

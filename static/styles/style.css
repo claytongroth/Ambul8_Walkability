@@ -35,13 +35,18 @@ footer {
 #mapid { 
     height: 500px; 
     width: 500px;
+    margin : auto;
 }
 #mapid2 { 
     height: 500px; 
     width: 500px;
+    margin : auto;
 }
 #map2 {
     opacity: 0;
+}
+svg {
+    margin :auto;
 }
 
 .legend {
