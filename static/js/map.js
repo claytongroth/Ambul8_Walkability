@@ -258,7 +258,7 @@ map.locationChange = function (){
     d3.select("#searchHeader").html("<span>Processing your walkable area this may take a few minutes... </span><img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
     d3.select("#poiHeader").html("<span>Getting Points of interest in your area. This may take a few minutes...</span> <img id='loadingGIF' src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/ab79a231234507.564a1d23814ef.gif'></img>");
     
-    //fade the second map div container into existance. It is hidden untill the user selects a new location
+    //fade the second map div container into existence. It is hidden until the user selects a new location
     d3.select("#map2")
         .transition()
         .duration(8000)
