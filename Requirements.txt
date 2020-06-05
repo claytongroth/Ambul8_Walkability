@@ -47,7 +47,7 @@ datashape==0.5.4
 decorator==4.2.1
 descartes==1.1.0
 distributed==1.20.2
-Django==1.11.10
+Django==1.11.29
 django-configurations==2.0
 docutils==0.14
 entrypoints==0.2.3
